@@ -952,8 +952,11 @@ document.addEventListener('site:ready', () => {
     const text=input.value.trim(); if(!text) return;
     addMsg(text,'out'); input.value=''; showTyping(true);
     try{
+      const ctrl=new AbortController();
+      const timer=setTimeout(()=>ctrl.abort(),15000);
       const res=await fetch(SERVER+'/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({sessionId:SESSION_ID,mensaje:text})});
+        body:JSON.stringify({sessionId:SESSION_ID,mensaje:text}),signal:ctrl.signal});
+      clearTimeout(timer);
       const data=await res.json(); showTyping(false); addMsg(data.respuesta,'in');
       if(data.reservaCreada){
         const r=data.reservaCreada;
@@ -961,7 +964,14 @@ document.addEventListener('site:ready', () => {
         b.textContent='✅ Prenotazione confermata · '+r.fecha+' '+r.hora+' · '+r.personas+' personas';
         msgs.insertBefore(b,typing); msgs.scrollTop=msgs.scrollHeight;
       }
-    }catch(e){ showTyping(false); addMsg('Ha ocurrido un error. Llámanos al 912 344 929.','in'); }
+    }catch(e){
+      showTyping(false);
+      if(e.name==='AbortError'){
+        addMsg('Estoy arrancando, dame un momento… Vuelve a enviar tu mensaje. 🍕','in');
+      } else {
+        addMsg('Ha ocurrido un error. Llámanos al 912 344 929.','in');
+      }
+    }
   }
   send.addEventListener('click',sendMsg);
   input.addEventListener('keydown',e=>{if(e.key==='Enter')sendMsg();});
