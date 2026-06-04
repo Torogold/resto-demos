@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CALBENTA — Restaurante de comida española frente a IFEMA Madrid</title>
+<meta name="description" content="Calbenta, restaurante de comida española frente a IFEMA Madrid (Av. del Partenón 10). Desayunos, menú del día 18,50€, carne a la piedra, pescados, cócteles y vinos. Reserva tu mesa.">
+<meta property="og:title" content="CALBENTA — Cocina española de la de verdad, frente a IFEMA">
+<meta property="og:description" content="Restaurante de comida española frente a IFEMA Madrid. Desayunos, menú del día casero, carnes a la piedra, cócteles y vinos.">
+<meta property="og:type" content="restaurant">
+<meta property="og:locale" content="es_ES">
+<meta property="og:image" content="https://media.v2.siweb.es/uploaded_thumb_big/f119d9c278f673cd8e02d86325f67ba2/cabecera_1_1.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300;1,6..72,400;1,6..72,500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --paper:#f1e6d3; --paper-2:#e9dac1; --cream-hi:#faf3e4;
+  --ink:#2a1c12; --ink-soft:#5e4934;
+  --red:#bc3520; --red-deep:#7d1f12;
+  --saffron:#e0a12c; --saffron-deep:#c9871b;
+  --olive:#6f6a3a; --oxblood:#2c110b;
+  --display:'Anton',Impact,sans-serif;
+  --serif:'Newsreader',Georgia,serif;
+  --e-expo:cubic-bezier(0.16,1,0.3,1);
+  --e-quint:cubic-bezier(0.83,0,0.17,1);
+  --pad:clamp(1.3rem,5vw,7rem);
+  --rule:1px solid rgba(42,28,18,0.16);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;}
+html.lenis,html.lenis body{height:auto;}
+.lenis.lenis-smooth{scroll-behavior:auto !important;}
+.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain;}
+.lenis.lenis-stopped{overflow:hidden;}
+body{background:var(--paper);color:var(--ink);font-family:var(--serif);line-height:1.6;overflow-x:hidden;}
+@media (pointer:fine){ body.cursor-on{cursor:none;} body.cursor-on a,body.cursor-on button{cursor:none;} }
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+button{font-family:inherit;color:inherit;background:none;border:none;cursor:pointer;}
+::selection{background:var(--red);color:var(--cream-hi);}
+.display{font-family:var(--display);font-weight:400;text-transform:uppercase;line-height:0.92;}
+h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.0;letter-spacing:-0.01em;}
+em{font-style:italic;}
+
+.grain::after{content:'';position:fixed;inset:0;z-index:60;pointer-events:none;opacity:0.055;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+.warmth{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:radial-gradient(60% 50% at 82% 0%, rgba(224,161,44,0.14) 0%, transparent 60%),radial-gradient(50% 50% at 0% 100%, rgba(188,53,32,0.07) 0%, transparent 60%);}
+main,.masthead,.colofon{position:relative;z-index:2;}
+
+/* cursor */
+.cur{position:fixed;top:0;left:0;z-index:100;pointer-events:none;border-radius:50%;will-change:transform;}
+.cur-dot{width:7px;height:7px;background:var(--red);transform:translate(-50%,-50%);}
+.cur-ring{width:38px;height:38px;border:1.5px solid var(--red);transform:translate(-50%,-50%);transition:width .3s var(--e-expo),height .3s var(--e-expo);opacity:.7;}
+.cur-ring.grow{width:74px;height:74px;background:rgba(188,53,32,0.08);}
+@media (pointer:coarse){.cur{display:none;}}
+
+/* loader */
+#loader{position:fixed;inset:0;z-index:200;background:var(--paper);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.3rem;transition:opacity .9s var(--e-expo),visibility .9s;}
+#loader.done{opacity:0;visibility:hidden;}
+.loader-mark{font-family:var(--display);font-size:clamp(2.6rem,9vw,5rem);color:var(--red);letter-spacing:0.04em;opacity:0;animation:lf 1s var(--e-expo) .1s forwards;}
+.loader-bar{width:min(42vw,260px);height:2px;background:rgba(42,28,18,0.14);overflow:hidden;}
+.loader-bar::after{content:'';display:block;height:100%;background:var(--red);transform:scaleX(0);transform-origin:left;animation:lb 1.4s var(--e-quint) .2s forwards;}
+.loader-cap{font-family:var(--display);font-size:.62rem;letter-spacing:0.4em;text-transform:uppercase;color:var(--ink-soft);opacity:0;animation:lf 1s ease .4s forwards;}
+@keyframes lf{to{opacity:1;}} @keyframes lb{to{transform:scaleX(1);}}
+#progress{position:fixed;top:0;left:0;height:3px;width:100%;background:var(--red);transform:scaleX(0);transform-origin:0 50%;z-index:80;}
+
+/* masthead */
+.masthead{position:fixed;top:0;left:0;width:100%;z-index:50;transition:background .5s;}
+.masthead.shrink{background:rgba(241,230,211,0.92);backdrop-filter:blur(8px);border-bottom:var(--rule);}
+.masthead__top{display:flex;justify-content:space-between;align-items:center;padding:.7rem var(--pad);font-family:var(--display);font-size:.6rem;letter-spacing:.26em;text-transform:uppercase;color:var(--ink-soft);border-bottom:var(--rule);}
+.masthead__main{display:flex;justify-content:space-between;align-items:center;padding:1rem var(--pad);transition:padding .5s var(--e-expo);}
+.masthead.shrink .masthead__main{padding-top:.6rem;padding-bottom:.6rem;}
+.masthead .brand{font-family:var(--display);font-size:clamp(1.4rem,3vw,2rem);color:var(--red);letter-spacing:0.06em;}
+.mnav{display:flex;align-items:center;gap:1.7rem;font-family:var(--display);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;}
+.mnav a{position:relative;color:var(--ink);}
+.mnav a::after{content:'';position:absolute;left:0;bottom:-4px;width:100%;height:2px;background:var(--red);transform:scaleX(0);transform-origin:right;transition:transform .4s var(--e-expo);}
+.mnav a:hover::after{transform:scaleX(1);transform-origin:left;}
+.mnav .pill{padding:.5rem 1.1rem;background:var(--red);color:var(--cream-hi);border-radius:2px;}
+.mnav .pill::after{display:none;} .mnav .pill:hover{background:var(--red-deep);}
+@media(max-width:820px){.mnav a:not(.pill){display:none;}.masthead__top span:nth-child(2){display:none;}}
+
+.section{padding:clamp(5rem,12vh,10rem) var(--pad);}
+.overline{font-family:var(--display);font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--red);display:inline-flex;align-items:center;gap:.7rem;}
+.overline::before{content:'';width:30px;height:2px;background:var(--red);}
+.muted{color:var(--ink-soft);}
+
+/* foto enmarcada (color real) */
+.ph{position:relative;overflow:hidden;background:var(--paper-2);}
+.ph img{width:100%;height:100%;object-fit:cover;filter:saturate(1.03) contrast(1.02);}
+.ph::after{content:'';position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 70px rgba(44,17,11,0.18);}
+.ph-cap{display:block;font-family:var(--display);font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-soft);margin-top:.7rem;}
+
+/* hero · portada (cover) */
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;padding:6.5rem var(--pad) 0;overflow:hidden;}
+.cover{position:relative;flex:1;display:flex;flex-direction:column;justify-content:center;}
+.hero .overline{margin-bottom:1.3rem;opacity:0;position:relative;z-index:5;}
+.cover-title{position:relative;z-index:5;font-weight:300;}
+.line{display:block;will-change:clip-path;}
+.line>span{display:block;}
+.cover-title .line{padding-top:0.22em;}
+/* ↓ espaciado vertical entre líneas del título aumentado */
+.cover-title .line + .line{margin-top:0.48em;}
+.cover-title .pop{font-family:var(--display);font-weight:400;color:var(--ink);text-transform:uppercase;font-size:clamp(3rem,13vw,12rem);line-height:1.0;letter-spacing:-0.01em;}
+.cover-title .pop.red{color:var(--red);}
+.cover-title .itline{margin-top:.12em;}
+.cover-title .it{font-style:italic;font-family:var(--serif);font-size:clamp(1.6rem,5.5vw,5rem);color:var(--ink-soft);font-weight:300;}
+.cover-title .it .under{color:var(--red);border-bottom:0.09em solid var(--saffron);}
+.hero-sub{max-width:40ch;font-size:clamp(1rem,1.4vw,1.16rem);color:var(--ink-soft);line-height:1.6;margin-top:1.5rem;opacity:0;position:relative;z-index:5;}
+.hero-ctas{display:flex;gap:.9rem;flex-wrap:wrap;margin-top:1.7rem;opacity:0;position:relative;z-index:5;}
+.btn{font-family:var(--display);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;padding:1rem 1.8rem;border-radius:2px;transition:all .4s var(--e-expo);display:inline-flex;align-items:center;gap:.6rem;}
+.btn-red{background:var(--red);color:var(--cream-hi);} .btn-red:hover{background:var(--red-deep);}
+.btn-line{border:1.5px solid var(--ink);color:var(--ink);} .btn-line:hover{background:var(--ink);color:var(--paper);}
+
+/* fotos flotantes tipo polaroid */
+.cover-print{position:absolute;z-index:2;will-change:transform;}
+.cover-print .frame{background:var(--cream-hi);padding:7px 7px 26px;box-shadow:0 26px 60px rgba(44,17,11,.28);}
+.cover-print .ph{display:block;}
+.cover-print .cap{display:block;font-family:var(--display);font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-soft);text-align:center;margin-top:8px;}
+.cp1{top:7%;right:3%;width:clamp(210px,21vw,340px);}
+.cp1 .frame{transform:rotate(3.5deg);}
+.cp1 .ph{aspect-ratio:3/4;}
+.cp2{bottom:8%;right:16%;width:clamp(150px,13vw,215px);}
+.cp2 .frame{transform:rotate(-6deg);}
+.cp2 .ph{aspect-ratio:1/1;}
+
+/* sello menú del día */
+.cover-seal{position:absolute;z-index:6;right:31%;top:43%;width:clamp(118px,12vw,172px);aspect-ratio:1;}
+.seal-disc{position:absolute;inset:7%;border-radius:50%;background:var(--saffron);box-shadow:0 16px 40px rgba(201,135,27,.45);}
+.seal-svg{position:absolute;inset:0;width:100%;height:100%;transform-origin:center;animation:seal-spin 26s linear infinite;}
+.seal-svg text{font-family:var(--display);font-size:13px;letter-spacing:1.5px;fill:var(--oxblood);text-transform:uppercase;}
+.seal-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;}
+.seal-center b{font-family:var(--display);font-size:clamp(1.2rem,2.2vw,1.7rem);color:var(--oxblood);line-height:.9;}
+.seal-center small{font-size:.44rem;letter-spacing:.16em;text-transform:uppercase;color:var(--red-deep);margin-top:4px;}
+@keyframes seal-spin{to{transform:rotate(360deg);}}
+
+@media(max-width:1000px){
+  .cover-print.cp2{display:none;}
+  .cp1{top:auto;bottom:6%;right:3%;width:clamp(160px,28vw,240px);}
+  .cover-seal{right:4%;top:5.5rem;width:104px;}
+}
+@media(max-width:760px){
+  .cover-print,.cover-seal{display:none;}
+  .cover{justify-content:flex-end;padding-bottom:1.2rem;}
+}
+
+.marquee{margin-top:clamp(2.5rem,5vw,4rem);border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);overflow:hidden;padding:.7rem 0;}
+.marquee__row{display:flex;width:max-content;will-change:transform;animation:scrollX 36s linear infinite;}
+.marquee__row span{font-family:var(--display);font-size:clamp(1.1rem,2.4vw,2rem);text-transform:uppercase;color:var(--ink);padding:0 1.2rem;display:inline-flex;align-items:center;gap:1.2rem;}
+.marquee__row span::after{content:'✶';color:var(--red);font-family:var(--serif);}
+@keyframes scrollX{to{transform:translateX(-50%);}}
+
+/* la casa */
+.casa-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:clamp(2rem,5vw,5rem);align-items:center;}
+.casa-text h2{font-size:clamp(2rem,5vw,3.6rem);font-weight:300;margin:1rem 0 1.6rem;max-width:15ch;}
+.casa-text h2 em{color:var(--red);}
+.casa-body p{font-size:1.05rem;line-height:1.75;color:var(--ink-soft);margin-bottom:1.1rem;}
+.casa-body p:first-of-type::first-letter{font-family:var(--display);float:left;font-size:4rem;line-height:.8;padding:.1rem .55rem 0 0;color:var(--red);}
+.casa-sign{font-style:italic;font-size:1.3rem;margin-top:1.4rem;}
+.casa-media{position:relative;}
+.casa-media .ph{aspect-ratio:5/4;}
+.casa-media .tag{position:absolute;left:-12px;top:-12px;background:var(--saffron);color:var(--ink);font-family:var(--display);font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;padding:.5rem .9rem;z-index:3;}
+.casa-detail{position:absolute;right:-18px;bottom:-30px;width:38%;max-width:170px;z-index:3;border:6px solid var(--paper);box-shadow:0 18px 40px rgba(44,17,11,0.25);}
+.casa-detail .ph{aspect-ratio:3/4;}
+@media(max-width:820px){.casa-grid{grid-template-columns:1fr;}.casa-detail{display:none;}}
+
+/* el día (escenas con foto) */
+.day{height:450vh;position:relative;}
+.day-sticky{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;align-items:center;}
+.day-bg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;}
+.day-phase{position:absolute;inset:0;z-index:2;display:flex;align-items:center;padding:0 var(--pad);opacity:0;will-change:opacity,transform;color:var(--cream-hi);}
+.day-inner{max-width:780px;}
+.day-no{font-family:var(--display);font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--saffron);}
+.day-big{font-family:var(--display);font-size:clamp(3.2rem,14vw,11rem);text-transform:uppercase;line-height:.86;margin:.4rem 0;}
+.day-when{font-style:italic;font-size:clamp(1.3rem,3.2vw,2.1rem);margin-bottom:1rem;color:var(--cream-hi);}
+.day-phase p{font-size:1.05rem;line-height:1.7;max-width:48ch;color:rgba(250,243,228,0.85);}
+.day-dots{position:absolute;right:var(--pad);top:50%;transform:translateY(-50%);z-index:3;display:flex;flex-direction:column;gap:.8rem;}
+.day-dots i{width:10px;height:10px;border-radius:50%;border:1.5px solid rgba(250,243,228,.6);display:block;opacity:.5;transition:all .4s;}
+.day-dots i.on{background:var(--saffron);border-color:var(--saffron);opacity:1;}
+@media(max-width:680px){.day-dots{display:none;}}
+
+/* la carta */
+.carta-grid{display:grid;grid-template-columns:0.8fr 1.2fr;gap:clamp(2rem,5vw,5rem);align-items:start;}
+.carta-aside{position:sticky;top:120px;}
+.carta-aside h2{font-size:clamp(2rem,5vw,3.4rem);font-weight:300;margin:1rem 0 1.2rem;}
+.carta-aside h2 em{color:var(--red);}
+.carta-aside p{color:var(--ink-soft);font-size:1rem;line-height:1.7;margin-bottom:1.6rem;max-width:34ch;}
+.carta-aside .ph{aspect-ratio:4/5;}
+.menu-cat{margin-bottom:2.4rem;}
+.menu-cat h3{font-family:var(--display);font-size:.82rem;letter-spacing:.24em;text-transform:uppercase;color:var(--red);padding-bottom:.7rem;border-bottom:2px solid var(--ink);margin-bottom:.6rem;}
+.mi{display:flex;align-items:baseline;gap:.6rem;padding:.5rem 0;border-bottom:1px dotted rgba(42,28,18,0.22);transition:color .3s,padding-left .4s var(--e-expo);}
+.mi:hover{color:var(--red);padding-left:.5rem;}
+.mi .nm{font-size:1.16rem;white-space:nowrap;}
+.mi .nm em{font-style:italic;color:var(--ink-soft);font-size:.92rem;}
+.mi .dots{flex:1;border-bottom:1px dotted rgba(42,28,18,0.3);transform:translateY(-4px);}
+.mi .pr{font-family:var(--display);font-size:.92rem;letter-spacing:.02em;color:var(--ink);white-space:nowrap;}
+.menu-note{font-size:.82rem;color:var(--ink-soft);font-style:italic;margin-top:.4rem;}
+@media(max-width:820px){.carta-grid{grid-template-columns:1fr;}.carta-aside{position:relative;top:0;}.carta-aside .ph{aspect-ratio:16/10;}}
+
+/* barra (cócteles & vinos) */
+.bar{position:relative;color:var(--cream-hi);overflow:hidden;}
+.bar-bg{position:absolute;inset:0;z-index:0;background-size:cover;background-position:center;}
+.bar-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(44,17,11,.82),rgba(44,17,11,.9));}
+.bar-inner{position:relative;z-index:1;}
+.bar .overline{color:var(--saffron);} .bar .overline::before{background:var(--saffron);}
+.bar h2{font-size:clamp(2.2rem,6vw,4.2rem);font-weight:300;margin:1.2rem 0 2.5rem;max-width:16ch;}
+.bar h2 .pop{font-family:var(--display);color:var(--saffron);text-transform:uppercase;}
+.bar-cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,5rem);}
+.bar-cols h3{font-family:var(--display);font-size:.78rem;letter-spacing:.22em;text-transform:uppercase;color:var(--saffron);padding-bottom:.7rem;border-bottom:1px solid rgba(250,243,228,.25);margin-bottom:.5rem;}
+.bi{display:flex;align-items:baseline;gap:.6rem;padding:.5rem 0;border-bottom:1px dotted rgba(250,243,228,.18);}
+.bi .nm{font-size:1.1rem;} .bi .nm em{font-style:italic;color:rgba(250,243,228,.6);font-size:.85rem;}
+.bi .dots{flex:1;} .bi .pr{font-family:var(--display);font-size:.9rem;color:var(--cream-hi);white-space:nowrap;}
+@media(max-width:680px){.bar-cols{grid-template-columns:1fr;}}
+
+/* reservado */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,5rem);align-items:center;}
+.split h2{font-size:clamp(2rem,5vw,3.4rem);font-weight:300;margin-bottom:1.2rem;}
+.split h2 em{color:var(--red);}
+.split p{color:var(--ink-soft);font-size:1.03rem;line-height:1.7;margin-bottom:1rem;max-width:46ch;}
+.reserv-media .ph{aspect-ratio:5/4;}
+@media(max-width:820px){.split{grid-template-columns:1fr;}}
+
+/* stats */
+.stats{border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);}
+.stat{padding:clamp(2.2rem,4vw,3.6rem) clamp(1rem,3vw,2.4rem);border-right:var(--rule);}
+.stat:last-child{border-right:none;}
+.stat .num{font-family:var(--display);font-size:clamp(2.4rem,5.5vw,4.4rem);color:var(--red);line-height:1;}
+.stat .lab{margin-top:.7rem;font-size:.85rem;color:var(--ink-soft);max-width:20ch;}
+@media(max-width:760px){.stats-grid{grid-template-columns:repeat(2,1fr);}.stat:nth-child(2){border-right:none;}.stat:nth-child(1),.stat:nth-child(2){border-bottom:var(--rule);}}
+
+/* cta */
+.cta{text-align:center;}
+.cta .above{font-style:italic;font-size:clamp(1.1rem,2.4vw,1.6rem);color:var(--ink-soft);margin-bottom:1.4rem;}
+.cta h2{font-family:var(--display);font-size:clamp(3rem,11vw,8.5rem);text-transform:uppercase;color:var(--ink);line-height:.9;margin-bottom:2.4rem;}
+.cta h2 em{color:var(--red);font-family:var(--serif);text-transform:none;font-weight:300;}
+.magnetic{display:inline-flex;align-items:center;gap:.9rem;background:var(--red);color:var(--cream-hi);font-family:var(--display);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;padding:1.2rem 2.6rem;border-radius:3px;will-change:transform;transition:background .4s;}
+.magnetic:hover{background:var(--red-deep);} .magnetic .ar{transition:transform .4s var(--e-expo);} .magnetic:hover .ar{transform:translateX(6px);}
+
+/* colofón */
+.colofon{background:var(--oxblood);color:var(--cream-hi);padding:clamp(4rem,8vh,7rem) var(--pad) 2.5rem;}
+.colofon-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2.2rem;border-bottom:1px solid rgba(250,243,228,0.16);padding-bottom:3rem;}
+.colofon h4{font-family:var(--display);font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;color:var(--saffron);margin-bottom:.9rem;}
+.colofon p,.colofon a{font-size:.92rem;line-height:1.85;color:rgba(250,243,228,0.82);}
+.colofon a:hover{color:var(--saffron);}
+.colofon-mark{font-family:var(--display);font-size:clamp(3.2rem,15vw,11rem);text-transform:uppercase;line-height:.85;color:var(--cream-hi);margin-top:2rem;letter-spacing:.02em;}
+.colofon-base{margin-top:1.3rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-family:var(--display);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(250,243,228,0.55);}
+@media(max-width:820px){.colofon-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:520px){.colofon-grid{grid-template-columns:1fr;}}
+
+.rise{will-change:transform,opacity;}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important;}
+  .line>span{transform:none;}
+  .marquee__row{animation:none;}
+  .hero .overline,.hero-sub,.hero-ctas,.hero-photo{opacity:1;}
+  .day-phase{opacity:1;position:relative;height:auto;padding:3.5rem var(--pad);background:var(--oxblood);}
+  .day,.day-sticky{height:auto;position:relative;}
+}
+</style>
+</head>
+<body class="grain">
+
+<div class="warmth"></div>
+<div class="cur cur-ring" id="curRing"></div>
+<div class="cur cur-dot" id="curDot"></div>
+
+<div id="loader">
+  <div class="loader-mark">CALBENTA</div>
+  <div class="loader-bar"></div>
+  <div class="loader-cap">Poniendo la mesa…</div>
+</div>
+<div id="progress"></div>
+
+<header class="masthead" id="masthead">
+  <div class="masthead__top">
+    <span>Madrid · Frente a IFEMA</span>
+    <span>Restaurante de comida española</span>
+    <span>Menú del día · 18,50 €</span>
+  </div>
+  <div class="masthead__main">
+    <a href="#inicio" class="brand">CALBENTA</a>
+    <nav class="mnav">
+      <a href="#carta">La carta</a>
+      <a href="#barra">Cócteles</a>
+      <a href="#" class="pill" onclick="openWidget();return false;" data-cursor>Reservar</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="cover">
+      <span class="overline">Restaurante de comida española · frente a IFEMA</span>
+      <h1 class="cover-title">
+        <span class="line"><span class="pop">Cocina</span></span>
+        <span class="line"><span class="pop red">española</span></span>
+        <span class="line itline"><span class="it">de la de <span class="under">verdad</span>.</span></span>
+      </h1>
+      <p class="hero-sub">Frente al mayor recinto ferial de España, una casa de comidas donde todo se cocina cada día. Desayunos, menú del día, carne a la piedra, pescados y cócteles.</p>
+      <div class="hero-ctas">
+        <a href="#" class="btn btn-red" onclick="openWidget();return false;" data-cursor>Reservar con el agente →</a>
+        <a href="#carta" class="btn btn-line" data-cursor>Ver la carta</a>
+      </div>
+
+      <div class="cover-print cp1" data-depth="34" aria-hidden="true">
+        <div class="frame"><div class="ph"><img src="https://media.v2.siweb.es/uploaded_thumb_big/f119d9c278f673cd8e02d86325f67ba2/recursos_calbenta_1.png" alt="Chuletón a la piedra"></div><span class="cap">Chuletón a la piedra</span></div>
+      </div>
+      <div class="cover-print cp2" data-depth="22" aria-hidden="true">
+        <div class="frame"><div class="ph"><img src="https://media.v2.siweb.es/uploaded_thumb_medium/f119d9c278f673cd8e02d86325f67ba2/recursos_calbenta_9.png" alt="Tortilla jugosa"></div><span class="cap">Tortilla jugosa</span></div>
+      </div>
+
+      <div class="cover-seal" aria-hidden="true">
+        <div class="seal-disc"></div>
+        <svg class="seal-svg" viewBox="0 0 200 200"><defs><path id="sealPath" fill="none" d="M100,26 a74,74 0 1,1 -0.1,0"/></defs><text><textPath href="#sealPath" startOffset="0">· Menú del día · 18,50 € · bebida y pan · 100% casero ·</textPath></text></svg>
+        <div class="seal-center"><b>18,50€</b><small>menú del día</small></div>
+      </div>
+    </div>
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__row">
+        <span>Pulpo a la brasa</span><span>Chuletón a la piedra</span><span>Anchoas del Cantábrico</span><span>Croquetas artesanas</span><span>Cachopo</span><span>Burrata al pesto</span><span>Menú del día 18,50&nbsp;€</span>
+        <span>Pulpo a la brasa</span><span>Chuletón a la piedra</span><span>Anchoas del Cantábrico</span><span>Croquetas artesanas</span><span>Cachopo</span><span>Burrata al pesto</span><span>Menú del día 18,50&nbsp;€</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- LA CASA -->
+  <section class="section" id="casa">
+    <div class="casa-grid">
+      <div class="casa-text rise">
+        <span class="overline">La casa</span>
+        <h2>Una casa de comidas <em>frente a IFEMA</em>.</h2>
+        <div class="casa-body">
+          <p>Calbenta nació con una idea sencilla: ofrecer cocina española de verdad en una zona donde escaseaba. Frente al mayor recinto ferial de España montamos un sitio donde todo se cocina cada día, sin precocinados ni atajos, con producto fresco de mercado.</p>
+          <p>Por la mañana abrimos temprano con desayunos. Al mediodía servimos un menú del día cien por cien casero. Y a la carta, de la tortilla jugosa al chuletón a la piedra, mantenemos el sabor de siempre en pleno Madrid ferial.</p>
+        </div>
+        <div class="casa-sign">— El equipo de Calbenta</div>
+      </div>
+      <div class="casa-media rise">
+        <div class="tag">Nuestra casa</div>
+        <div class="ph"><img src="https://media.v2.siweb.es/uploaded_thumb_medium/f119d9c278f673cd8e02d86325f67ba2/calbenta_5.png" alt="Interior del restaurante Calbenta" id="casaImg"></div>
+        <div class="casa-detail"><div class="ph"><img src="https://media.v2.siweb.es/uploaded_thumb_big/f119d9c278f673cd8e02d86325f67ba2/dsc0877.jpg" alt="Detalle decorativo de Calbenta"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EL DÍA -->
+  <section class="day" id="dia">
+    <div class="day-sticky">
+      <div class="day-bg" id="dayBg"></div>
+      <div class="day-phase" data-phase="0">
+        <div class="day-inner">
+          <div class="day-no">Capítulo 01</div>
+          <div class="day-big">El desayuno</div>
+          <div class="day-when"><em>Desde primera hora</em></div>
+          <p>Mini tortilla con café, tostas de aguacate, salmón y queso, revuelto de huevos con bacon o un zumo de naranja natural. La forma de arrancar antes de que la feria se ponga en marcha.</p>
+        </div>
+      </div>
+      <div class="day-phase" data-phase="1">
+        <div class="day-inner">
+          <div class="day-no">Capítulo 02</div>
+          <div class="day-big">El menú del día</div>
+          <div class="day-when"><em>De 13:15 a 15:00 · 18,50 €</em></div>
+          <p>Cien por cien casero, con bebida y pan incluidos. Medio menú por 12,50 €. No se comparte, y en terraza lleva un 10 % de suplemento. El menú de toda la vida, bien hecho.</p>
+        </div>
+      </div>
+      <div class="day-phase" data-phase="2">
+        <div class="day-inner">
+          <div class="day-no">Capítulo 03</div>
+          <div class="day-big">Los días de feria</div>
+          <div class="day-when"><em>Salón Gourmets, SIMA, Madrid Car Experience…</em></div>
+          <p>Cuando IFEMA abre sus puertas, Calbenta se llena. Esos días no hay reservas: se entra por orden de llegada. Para celebraciones y comidas de empresa, montamos eventos privados.</p>
+        </div>
+      </div>
+      <div class="day-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+    </div>
+  </section>
+
+  <!-- LA CARTA -->
+  <section class="section" id="carta">
+    <div class="carta-grid">
+      <aside class="carta-aside rise">
+        <span class="overline">La carta</span>
+        <h2>Lo que sale de <em>la cocina</em></h2>
+        <p>Para compartir o para ti solo: entrantes de huerta, brasa, pescados, hamburguesas y postres artesanos. Todo cocinado en casa.</p>
+        <div class="ph"><img src="https://media.v2.siweb.es/uploaded_thumb_big/f119d9c278f673cd8e02d86325f67ba2/dsc0828.jpg" alt="Rincón del restaurante Calbenta"></div>
+        <span class="ph-cap">Nuestro comedor · Av. del Partenón 10</span>
+      </aside>
+
+      <div class="carta-menu">
+        <div class="menu-cat rise">
+          <h3>Desayunos <em style="font-size:.72rem;letter-spacing:.08em;text-transform:none;color:var(--ink-soft)">· lunes a sábado desde 8:00</em></h3>
+          <div class="mi"><span class="nm">Mini tortilla <em>+ café</em></span><span class="dots"></span></div>
+          <div class="mi"><span class="nm">Tosta aguacate, salmón y queso crema <em>+ café</em></span><span class="dots"></span></div>
+          <div class="mi"><span class="nm">Tosta jamón con tomate <em>+ café</em></span><span class="dots"></span></div>
+          <div class="mi"><span class="nm">Revuelto de huevos y bacon <em>+ café</em></span><span class="dots"></span></div>
+          <div class="mi"><span class="nm">Montado de atún con aceitunas <em>+ café</em></span><span class="dots"></span></div>
+          <div class="mi"><span class="nm">Montado de bacon y queso <em>+ café</em></span><span class="dots"></span></div>
+          <div class="mi"><span class="nm">Montado de lomo y queso <em>+ café</em></span><span class="dots"></span></div>
+          <div class="mi"><span class="nm">Sandwich mixto con huevo <em>+ café</em></span><span class="dots"></span></div>
+          <div class="mi"><span class="nm">Croissant plancha <em>mermelada y mantequilla + café</em></span><span class="dots"></span></div>
+          <div class="mi"><span class="nm">Bizcocho <em>limón o zanahoria + café</em></span><span class="dots"></span></div>
+          <div class="mi"><span class="nm">Zumo de naranja natural</span><span class="dots"></span></div>
+        </div>
+
+        <div class="menu-cat rise">
+          <h3>De la huerta</h3>
+          <div class="mi"><span class="nm">Gilda</span><span class="dots"></span><span class="pr">2,50 €/ud</span></div>
+          <div class="mi"><span class="nm">Ensalada de tomate</span><span class="dots"></span><span class="pr">16,90 €</span></div>
+          <div class="mi"><span class="nm">Ensalada de burrata <em>al pesto</em></span><span class="dots"></span><span class="pr">15,90 €</span></div>
+          <div class="mi"><span class="nm">Ensalada Calbenta</span><span class="dots"></span><span class="pr">15,40 €</span></div>
+          <div class="mi"><span class="nm">Ensaladilla rusa casera</span><span class="dots"></span><span class="pr">15,40 €</span></div>
+          <div class="mi"><span class="nm">Pimientos de Padrón</span><span class="dots"></span><span class="pr">10,50 €</span></div>
+          <div class="mi"><span class="nm">Alcachofas</span><span class="dots"></span><span class="pr">18,50 €</span></div>
+        </div>
+
+        <div class="menu-cat rise">
+          <h3>Para compartir</h3>
+          <div class="mi"><span class="nm">Anchoas del Cantábrico</span><span class="dots"></span><span class="pr">15,40 €</span></div>
+          <div class="mi"><span class="nm">Pulpo a la brasa</span><span class="dots"></span><span class="pr">25,60 €</span></div>
+          <div class="mi"><span class="nm">Calamares <em>· ½ ración 11,90 €</em></span><span class="dots"></span><span class="pr">20,90 €</span></div>
+          <div class="mi"><span class="nm">Croquetas artesanas <em>de jamón</em></span><span class="dots"></span><span class="pr">13,50 €</span></div>
+          <div class="mi"><span class="nm">Croquetas de rabo</span><span class="dots"></span><span class="pr">13,50 €</span></div>
+          <div class="mi"><span class="nm">Tortilla jugosa <em>· ½ ración 10,90 €</em></span><span class="dots"></span><span class="pr">16,90 €</span></div>
+          <div class="mi"><span class="nm">Cachopo</span><span class="dots"></span><span class="pr">25,90 €</span></div>
+          <div class="mi"><span class="nm">Tabla de ibéricos</span><span class="dots"></span><span class="pr">19,90 €</span></div>
+          <div class="mi"><span class="nm">Jamón de bellota</span><span class="dots"></span><span class="pr">24,50 €</span></div>
+          <div class="mi"><span class="nm">Tabla de quesos</span><span class="dots"></span><span class="pr">16,90 €</span></div>
+        </div>
+
+        <div class="menu-cat rise">
+          <h3>Carnes a la piedra</h3>
+          <div class="mi"><span class="nm">Chuletón a la piedra</span><span class="dots"></span><span class="pr">62,50 €</span></div>
+          <div class="mi"><span class="nm">Pluma ibérica</span><span class="dots"></span><span class="pr">22,50 €</span></div>
+          <div class="mi"><span class="nm">Rabo de vacuno</span><span class="dots"></span><span class="pr">25,90 €</span></div>
+          <div class="mi"><span class="nm">Solomillo</span><span class="dots"></span><span class="pr">23,90 €</span></div>
+          <div class="mi"><span class="nm">Lomo bajo</span><span class="dots"></span><span class="pr">22,90 €</span></div>
+        </div>
+
+        <div class="menu-cat rise">
+          <h3>Pescados</h3>
+          <div class="mi"><span class="nm">Salmón</span><span class="dots"></span><span class="pr">23,90 €</span></div>
+          <div class="mi"><span class="nm">Bacalao</span><span class="dots"></span><span class="pr">24,90 €</span></div>
+          <div class="mi"><span class="nm">Gambones</span><span class="dots"></span><span class="pr">18,50 €</span></div>
+        </div>
+
+        <div class="menu-cat rise">
+          <h3>Hamburguesas</h3>
+          <div class="mi"><span class="nm">Loor</span><span class="dots"></span><span class="pr">16,90 €</span></div>
+          <div class="mi"><span class="nm">Vegetariana</span><span class="dots"></span><span class="pr">16,50 €</span></div>
+        </div>
+
+        <div class="menu-cat rise">
+          <h3>Postres artesanos</h3>
+          <div class="mi"><span class="nm">Tarta de queso casera</span><span class="dots"></span><span class="pr">7,90 €</span></div>
+          <div class="mi"><span class="nm">Tiramisú casero</span><span class="dots"></span><span class="pr">7,50 €</span></div>
+          <div class="mi"><span class="nm">Tarta de la abuela</span><span class="dots"></span><span class="pr">6,50 €</span></div>
+          <div class="mi"><span class="nm">Torrija</span><span class="dots"></span><span class="pr">6,50 €</span></div>
+          <div class="mi"><span class="nm">Coulant de chocolate</span><span class="dots"></span><span class="pr">5,50 €</span></div>
+          <div class="mi"><span class="nm">Flan artesano</span><span class="dots"></span><span class="pr">4,50 €</span></div>
+          <div class="mi"><span class="nm">Helados <em>chocolate, vainilla, nata o fresa</em></span><span class="dots"></span><span class="pr">4,50 €</span></div>
+        </div>
+
+        <div class="menu-cat rise">
+          <h3>Bebidas</h3>
+          <div class="mi"><span class="nm">Agua</span><span class="dots"></span><span class="pr">2 €</span></div>
+          <div class="mi"><span class="nm">Refrescos</span><span class="dots"></span><span class="pr">3,50 €</span></div>
+          <div class="mi"><span class="nm">Tinto de verano</span><span class="dots"></span><span class="pr">5 €</span></div>
+          <div class="mi"><span class="nm">Copa de vino</span><span class="dots"></span><span class="pr">3,90 €</span></div>
+          <div class="mi"><span class="nm">Estrella Galicia <em>caña o botellín</em></span><span class="dots"></span><span class="pr">4 €</span></div>
+          <div class="mi"><span class="nm">Erdinger <em>cerveza de trigo turbia</em></span><span class="dots"></span><span class="pr">5 €</span></div>
+          <div class="mi"><span class="nm">Café</span><span class="dots"></span></div>
+          <div class="mi"><span class="nm">Capuccino</span><span class="dots"></span></div>
+          <div class="mi"><span class="nm">Infusión</span><span class="dots"></span></div>
+        </div>
+
+        <div class="menu-cat rise" style="border-top:2px solid var(--ink);padding-top:1.4rem;margin-top:1rem;">
+          <h3>Alérgenos</h3>
+          <p class="menu-note" style="font-size:.9rem;line-height:1.7;">
+            Nuestros platos pueden contener: 🐟 Pescado · 🥛 Lácteos · 🦑 Moluscos · 🌾 Gluten · 🥜 Frutos de cáscara · 🥚 Huevos · 🦐 Crustáceos · 🍷 Sulfitos.<br>
+            <strong>Si tienes alguna alergia o intolerancia, infórmanos antes de pedir.</strong> Estamos para ayudarte. <a href="tel:915288493" style="color:var(--red)">915 288 493</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CÓCTELES & VINOS -->
+  <section class="section bar" id="barra">
+    <div class="bar-bg" style="background-image:url('https://media.v2.siweb.es/uploaded_thumb_big/f119d9c278f673cd8e02d86325f67ba2/restaurante_alta_calidad_1.jpg')"></div>
+    <div class="bar-inner">
+      <span class="overline rise">Coctelería &amp; bodega</span>
+      <h2 class="rise">Para la sobremesa, una <span class="pop">copa</span> más.</h2>
+      <div class="bar-cols">
+        <div class="rise">
+          <h3>Cócteles</h3>
+          <div class="bi"><span class="nm">Mojito <em>ron cubano, hierbabuena, lima</em></span><span class="dots"></span><span class="pr">8,90 €</span></div>
+          <div class="bi"><span class="nm">Margarita <em>tequila, lima, triple seco</em></span><span class="dots"></span><span class="pr">8,90 €</span></div>
+          <div class="bi"><span class="nm">Daiquiri <em>ron blanco, lima</em></span><span class="dots"></span><span class="pr">8,90 €</span></div>
+          <div class="bi"><span class="nm">Ladysour <em>sin alcohol · lima, piña</em></span><span class="dots"></span><span class="pr">7,90 €</span></div>
+          <div class="bi"><span class="nm">San Francisco <em>sin alcohol · frutas</em></span><span class="dots"></span><span class="pr">7,90 €</span></div>
+        </div>
+        <div class="rise">
+          <h3>Bodega</h3>
+          <div class="bi"><span class="nm">Paco &amp; Lola <em>Albariño · Rías Baixas</em></span><span class="dots"></span><span class="pr">25 €</span></div>
+          <div class="bi"><span class="nm">Verdeo <em>Verdejo · Rueda</em></span><span class="dots"></span><span class="pr">17,50 €</span></div>
+          <div class="bi"><span class="nm">Camiño dos Faros <em>Ribeiro</em></span><span class="dots"></span><span class="pr">18,50 €</span></div>
+          <div class="bi"><span class="nm">Celeste <em>Roble · Ribera del Duero</em></span><span class="dots"></span><span class="pr">20 €</span></div>
+          <div class="bi"><span class="nm">Altos Ibéricos <em>Reserva · Rioja</em></span><span class="dots"></span><span class="pr">29 €</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESERVADO / EVENTOS -->
+  <section class="section" id="eventos">
+    <div class="split">
+      <div class="rise">
+        <span class="overline">Eventos &amp; reservado</span>
+        <h2>Tu celebración, <em>en buenas manos</em>.</h2>
+        <p>Montamos eventos privados, comidas de empresa y celebraciones para grupos: la cocina de casa con todo el local a vuestra disposición bajo reserva.</p>
+        <p>¿Venís de feria? Los días con IFEMA en marcha entramos por orden de llegada, sin reserva. Para el resto, cuéntale los detalles a nuestro agente y lo dejamos atado.</p>
+        <a href="#" class="btn btn-red" onclick="openWidget();return false;" data-cursor style="margin-top:1rem">Organizar un evento →</a>
+      </div>
+      <div class="reserv-media rise">
+        <div class="ph"><img src="https://media.v2.siweb.es/uploaded_thumb_medium/f119d9c278f673cd8e02d86325f67ba2/calbenta_1_1.png" alt="Brindis y celebración en Calbenta"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats">
+    <div class="stats-grid">
+      <div class="stat"><div class="num">8:00</div><div class="lab">desayunos desde primera hora</div></div>
+      <div class="stat"><div class="num">18,50€</div><div class="lab">menú del día, bebida y pan incluidos</div></div>
+      <div class="stat"><div class="num" data-count="100" data-suffix="%">0</div><div class="lab">cocina casera, sin precocinados</div></div>
+      <div class="stat"><div class="num" data-count="4">0</div><div class="lab">años dando de comer frente a IFEMA</div></div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section cta" id="reservar">
+    <p class="above rise">¿Mesa para hoy?</p>
+    <h2 class="rise">Reserva <em>tu mesa</em></h2>
+    <a href="#" class="magnetic" onclick="openWidget();return false;" data-cursor>Hablar con el agente <span class="ar">→</span></a>
+  </section>
+
+</main>
+
+<!-- COLOFÓN -->
+<footer class="colofon">
+  <div class="colofon-grid">
+    <div>
+      <h4>Horario</h4>
+      <p>Desayunos desde 8:00<br>Menú del día 13:15–15:00<br>De lunes a sábado</p>
+    </div>
+    <div>
+      <h4>Dónde</h4>
+      <p>Av. del Partenón, 10<br>28042 Madrid<br>Frente a IFEMA · entrada sur</p>
+    </div>
+    <div>
+      <h4>Reservas</h4>
+      <p><a href="tel:+34915288493">915 288 493</a><br><a href="https://wa.me/34627944203" target="_blank" rel="noopener">WhatsApp · 627 944 203</a><br><a href="mailto:info@calbenta.com">info@calbenta.com</a><br><a href="#" onclick="openWidget();return false;">Agente de reservas →</a></p>
+    </div>
+    <div>
+      <h4>Síguenos</h4>
+      <p><a href="https://instagram.com/calbenta" target="_blank" rel="noopener">Instagram · @calbenta</a><br><a href="https://facebook.com/calbenta" target="_blank" rel="noopener">Facebook · @calbenta</a></p>
+    </div>
+  </div>
+  <div class="colofon-mark">CALBENTA</div>
+  <div class="colofon-base">
+    <span>ORIS y Venus, S.L. · NIF B-06985220</span>
+    <span>© 2026 Calbenta · Restaurante de comida española · Madrid</span>
+  </div>
+</footer>
+
+<!-- librerías -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+<script>
+const REDUCE = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+(function(){
+  const l=document.getElementById('loader'); let gone=false;
+  const hide=()=>{ if(gone)return; gone=true; l.classList.add('done'); document.dispatchEvent(new Event('cb:enter')); };
+  window.addEventListener('load',()=>setTimeout(hide, REDUCE?200:1500));
+  setTimeout(hide, 3000);
+})();
+
+(function(){
+  if(!window.matchMedia('(pointer:fine)').matches || REDUCE) return;
+  const dot=document.getElementById('curDot'), ring=document.getElementById('curRing');
+  document.body.classList.add('cursor-on');
+  let rx=0,ry=0,tx=0,ty=0;
+  window.addEventListener('mousemove',e=>{tx=e.clientX;ty=e.clientY;dot.style.transform='translate('+tx+'px,'+ty+'px) translate(-50%,-50%)';},{passive:true});
+  (function loop(){rx+=(tx-rx)*0.2;ry+=(ty-ry)*0.2;ring.style.transform='translate('+rx+'px,'+ry+'px) translate(-50%,-50%)';requestAnimationFrame(loop);})();
+  document.querySelectorAll('a,button,[data-cursor]').forEach(el=>{el.addEventListener('mouseenter',()=>ring.classList.add('grow'));el.addEventListener('mouseleave',()=>ring.classList.remove('grow'));});
+})();
+
+(function(){
+  if(!window.matchMedia('(pointer:fine)').matches || REDUCE) return;
+  document.querySelectorAll('.magnetic').forEach(b=>{
+    b.addEventListener('mousemove',e=>{const r=b.getBoundingClientRect();b.style.transform='translate('+(e.clientX-r.left-r.width/2)*0.3+'px,'+(e.clientY-r.top-r.height/2)*0.4+'px)';});
+    b.addEventListener('mouseleave',()=>{b.style.transition='transform .5s cubic-bezier(0.16,1,0.3,1)';b.style.transform='translate(0,0)';setTimeout(()=>b.style.transition='',500);});
+  });
+})();
+
+(function(){
+  if(REDUCE || !window.matchMedia('(pointer:fine)').matches) return;
+  const cards=Array.from(document.querySelectorAll('.cover-print'));
+  if(!cards.length) return;
+  const data=cards.map((c,i)=>({el:c,depth:parseFloat(c.dataset.depth)||20,phase:i*1.9,amp:5+i*2,sk:0.05+i*0.04}));
+  let mx=0,my=0,tx=0,ty=0;
+  window.addEventListener('mousemove',e=>{tx=e.clientX/innerWidth-0.5;ty=e.clientY/innerHeight-0.5;},{passive:true});
+  (function loop(t){
+    mx+=(tx-mx)*0.06; my+=(ty-my)*0.06;
+    const tm=t*0.001, sc=window.scrollY||0;
+    for(const d of data){
+      const fx=-mx*d.depth, fy=-my*d.depth + Math.sin(tm+d.phase)*d.amp - sc*d.sk;
+      d.el.style.transform='translate('+fx.toFixed(2)+'px,'+fy.toFixed(2)+'px)';
+    }
+    requestAnimationFrame(loop);
+  })(0);
+})();
+
+(function(){
+  const hasGSAP = typeof gsap!=='undefined' && typeof ScrollTrigger!=='undefined';
+  if(!hasGSAP){
+    document.querySelectorAll('.line>span').forEach(s=>s.style.transform='none');
+    document.querySelectorAll('.hero .overline,.hero-sub,.hero-ctas,.hero-photo').forEach(e=>e.style.opacity=1);
+    document.querySelectorAll('[data-count]').forEach(e=>e.textContent=(e.dataset.count)+(e.dataset.suffix||''));
+    return;
+  }
+  gsap.registerPlugin(ScrollTrigger);
+
+  if(!REDUCE && typeof Lenis!=='undefined'){
+    const lenis=new Lenis({duration:1.15,easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),smoothWheel:true,smoothTouch:false});
+    lenis.on('scroll',ScrollTrigger.update);
+    gsap.ticker.add(t=>lenis.raf(t*1000)); gsap.ticker.lagSmoothing(0);
+    window.__lenis=lenis;
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{
+    a.addEventListener('click',function(e){
+      const h=this.getAttribute('href'); if(!h||h==='#'||h.length<2) return;
+      const t=document.querySelector(h); if(!t) return; e.preventDefault();
+      if(window.__lenis) window.__lenis.scrollTo(t,{offset:-90}); else t.scrollIntoView({behavior:'smooth'});
+    });
+  });
+
+  ScrollTrigger.create({start:90,onUpdate:s=>document.getElementById('masthead').classList.toggle('shrink',s.scroll()>90)});
+  gsap.to('#progress',{scaleX:1,ease:'none',scrollTrigger:{start:0,end:'max',scrub:0.3}});
+
+  function counters(){
+    document.querySelectorAll('[data-count]').forEach(el=>{
+      const to=+el.dataset.count, sfx=el.dataset.suffix||'';
+      const run=()=>{const o={v:0};gsap.to(o,{v:to,duration:1.6,ease:'power2.out',onUpdate:()=>el.textContent=Math.round(o.v)+sfx});};
+      if(REDUCE){el.textContent=to+sfx;return;}
+      ScrollTrigger.create({trigger:el,start:'top 88%',once:true,onEnter:run});
+    });
+  }
+
+  if(REDUCE){
+    document.querySelectorAll('.line>span').forEach(s=>s.style.transform='none');
+    document.querySelectorAll('.hero .overline,.hero-sub,.hero-ctas,.hero-photo').forEach(e=>e.style.opacity=1);
+    document.querySelectorAll('.day-phase').forEach(p=>p.style.opacity=1);
+    counters(); return;
+  }
+
+  document.addEventListener('cb:enter',()=>{
+    gsap.timeline({defaults:{ease:'expo.out'}})
+      .fromTo('.cover-title .line',{clipPath:'inset(100% 0 0 0)'},{clipPath:'inset(-20% 0 0 0)',duration:1.15,stagger:0.12})
+      .to('.hero .overline',{opacity:1,duration:.85},'-=1.0')
+      .to('.hero-sub',{opacity:1,duration:.85},'-=0.7')
+      .to('.hero-ctas',{opacity:1,duration:.85},'-=0.6')
+      .fromTo('.cover-print .frame',{opacity:0,scale:0.7,yPercent:12},{opacity:1,scale:1,yPercent:0,duration:1.1,stagger:0.14},'-=1.05')
+      .fromTo('.cover-seal',{opacity:0,scale:0,rotation:-45},{opacity:1,scale:1,rotation:-11,duration:.9,ease:'back.out(1.6)'},'-=0.65');
+  },{once:true});
+
+  const casaImg=document.getElementById('casaImg');
+  if(casaImg){
+    const frame=casaImg.closest('.ph');
+    gsap.fromTo(frame,{clipPath:'inset(16% 16% 16% 16%)'},{clipPath:'inset(0% 0% 0% 0%)',ease:'power2.out',
+      scrollTrigger:{trigger:frame,start:'top 85%',end:'top 35%',scrub:true}});
+    gsap.fromTo(casaImg,{scale:1.3},{scale:1,ease:'none',
+      scrollTrigger:{trigger:frame,start:'top 90%',end:'bottom 45%',scrub:true}});
+  }
+
+  const phases=gsap.utils.toArray('.day-phase'), dots=gsap.utils.toArray('.day-dots i'), bg=document.getElementById('dayBg');
+  if(phases.length){
+    const I='https://media.v2.siweb.es/uploaded_thumb_medium/f119d9c278f673cd8e02d86325f67ba2/';
+    const scrim='linear-gradient(rgba(44,17,11,.5),rgba(44,17,11,.74)),';
+    const scenes=[
+      scrim+"url('"+I+"recursos_calbenta_9.png') center/cover",
+      scrim+"url('"+I+"cabecera_1_1.png') center/cover",
+      scrim+"url('"+I+"calbenta_1_1.png') center/cover"
+    ];
+    bg.style.background=scenes[0];
+    gsap.set(phases[0],{opacity:1}); gsap.set([phases[1],phases[2]],{y:40}); dots[0].classList.add('on');
+    const tl=gsap.timeline({scrollTrigger:{trigger:'.day',start:'top top',end:'bottom bottom',scrub:1}});
+    tl.to(phases[0],{opacity:0,y:-40,duration:.4},1.0)
+      .to(phases[1],{opacity:1,y:0,duration:.4},1.0)
+      .to(phases[1],{opacity:0,y:-40,duration:.4},3.0)
+      .to(phases[2],{opacity:1,y:0,duration:.4},3.0)
+      .to({},{duration:1.0});
+    ScrollTrigger.create({trigger:'.day',start:'top top',end:'bottom bottom',scrub:true,onUpdate:s=>{
+      const p=s.progress, i=p<0.23?0:(p<0.66?1:2);
+      bg.style.background=scenes[i];
+      dots.forEach((d,k)=>d.classList.toggle('on',k===i));
+    }});
+  }
+
+  gsap.utils.toArray('.rise').forEach(el=>gsap.from(el,{y:46,opacity:0,duration:1,ease:'expo.out',scrollTrigger:{trigger:el,start:'top 87%'}}));
+  counters();
+  window.addEventListener('load',()=>ScrollTrigger.refresh());
+})();
+</script>
+
+<!-- Agente IA de reservas (real · Railway) -->
+<script>
+(function(){
+  const SERVER='https://calbenta-demo-production.up.railway.app';
+  const SESSION_ID='w-'+Math.random().toString(36).slice(2,9);
+  const css=`
+    #cb-btn{position:fixed;bottom:22px;right:22px;z-index:9998;width:60px;height:60px;border-radius:50%;background:#bc3520;box-shadow:0 8px 28px rgba(188,53,32,.45);font-size:25px;display:flex;align-items:center;justify-content:center;transition:transform .2s;}
+    #cb-btn:hover{transform:scale(1.08);}
+    #cb-box{position:fixed;bottom:92px;right:22px;z-index:9999;width:360px;max-width:calc(100vw - 32px);height:520px;max-height:calc(100vh - 130px);border-radius:14px;overflow:hidden;box-shadow:0 24px 70px rgba(44,17,11,.4);display:none;flex-direction:column;font-family:'Newsreader',Georgia,serif;}
+    #cb-box.open{display:flex;}
+    #cb-hd{background:#bc3520;color:#faf3e4;padding:14px 16px;display:flex;align-items:center;gap:10px;}
+    #cb-av{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:18px;}
+    #cb-nm{font-family:'Anton',sans-serif;letter-spacing:.06em;font-size:15px;}
+    #cb-sb{font-size:11px;opacity:.85;}
+    #cb-x{margin-left:auto;font-size:22px;line-height:1;}
+    #cb-ms{flex:1;overflow-y:auto;padding:14px 12px;background:#f7efe1;display:flex;flex-direction:column;gap:8px;}
+    .cb-m{max-width:82%;padding:9px 13px;border-radius:13px;font-size:14.5px;line-height:1.45;animation:cbf .2s ease;}
+    @keyframes cbf{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+    .cb-m.in{background:#fff;color:#2a1c12;align-self:flex-start;border-bottom-left-radius:3px;box-shadow:0 1px 4px rgba(0,0,0,.07);}
+    .cb-m.out{background:#bc3520;color:#faf3e4;align-self:flex-end;border-bottom-right-radius:3px;}
+    .cb-bd{background:#e8f3e8;color:#256b2a;border-radius:10px;padding:8px 12px;font-size:13px;text-align:center;align-self:center;}
+    #cb-tp{align-self:flex-start;background:#fff;padding:10px 14px;border-radius:12px;display:none;}
+    #cb-tp span{display:inline-block;width:7px;height:7px;background:#bc3520;border-radius:50%;margin:0 2px;animation:cbb 1.2s infinite;}
+    #cb-tp span:nth-child(2){animation-delay:.15s;}#cb-tp span:nth-child(3){animation-delay:.3s;}
+    @keyframes cbb{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-5px);}}
+    #cb-ia{background:#fff;padding:10px 12px;display:flex;gap:8px;border-top:1px solid #efe0c6;}
+    #cb-in{flex:1;border:1px solid #e2d6c0;border-radius:22px;padding:9px 14px;font-size:14px;outline:none;font-family:inherit;color:#2a1c12;}
+    #cb-in:focus{border-color:#bc3520;}
+    #cb-sd{width:38px;height:38px;border-radius:50%;background:#bc3520;color:#fff;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  `;
+  const st=document.createElement('style'); st.textContent=css; document.head.appendChild(st);
+  const wrap=document.createElement('div');
+  wrap.innerHTML=`
+    <button id="cb-btn" title="Reservar mesa">🍽️</button>
+    <div id="cb-box">
+      <div id="cb-hd"><div id="cb-av">🍽️</div><div><div id="cb-nm">CALBENTA</div><div id="cb-sb">Reservas · en línea</div></div><button id="cb-x">×</button></div>
+      <div id="cb-ms"><div id="cb-tp"><span></span><span></span><span></span></div></div>
+      <div id="cb-ia"><input id="cb-in" type="text" placeholder="Escribe tu mensaje…"><button id="cb-sd">➤</button></div>
+    </div>`;
+  document.body.appendChild(wrap);
+  ['cb-ms','cb-box'].forEach(id=>{const el=document.getElementById(id); if(el) el.setAttribute('data-lenis-prevent','');});
+
+  const box=document.getElementById('cb-box'), btn=document.getElementById('cb-btn'), msgs=document.getElementById('cb-ms'),
+        typing=document.getElementById('cb-tp'), input=document.getElementById('cb-in'), send=document.getElementById('cb-sd');
+  let greeted=false;
+  function open(){ box.classList.add('open'); if(!greeted){greeted=true; addMsg('¡Hola! Soy el agente de Calbenta. Dime día, hora y para cuántas personas y te reservo mesa. 🍽️','in');} input.focus(); }
+  function close(){ box.classList.remove('open'); }
+  window._cbOpen=open;
+  btn.addEventListener('click',()=>box.classList.contains('open')?close():open());
+  document.getElementById('cb-x').addEventListener('click',close);
+  function addMsg(t,dir){ const d=document.createElement('div'); d.className='cb-m '+dir; d.textContent=t; msgs.insertBefore(d,typing); msgs.scrollTop=msgs.scrollHeight; }
+  function showTyping(v){ typing.style.display=v?'block':'none'; msgs.scrollTop=msgs.scrollHeight; }
+  async function sendMsg(){
+    const text=input.value.trim(); if(!text) return;
+    addMsg(text,'out'); input.value=''; showTyping(true);
+    try{
+      const res=await fetch(SERVER+'/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId:SESSION_ID,mensaje:text})});
+      const data=await res.json(); showTyping(false); addMsg(data.respuesta,'in');
+      if(data.reservaCreada){ const r=data.reservaCreada; const b=document.createElement('div'); b.className='cb-bd';
+        b.textContent='✅ Reserva confirmada · '+r.fecha+' '+r.hora+' · '+r.personas+' personas'; msgs.insertBefore(b,typing); msgs.scrollTop=msgs.scrollHeight; }
+    }catch(e){ showTyping(false); addMsg('Ha ocurrido un error. Llámanos al 915 288 493.','in'); }
+  }
+  send.addEventListener('click',sendMsg);
+  input.addEventListener('keydown',e=>{if(e.key==='Enter')sendMsg();});
+})();
+function openWidget(){ if(window._cbOpen) window._cbOpen(); }
+</script>
+</body>
+</html>

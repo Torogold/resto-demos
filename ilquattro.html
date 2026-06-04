@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Il Quattro — Ristorante Pizzeria Madrid</title>
+<meta name="description" content="Restaurante italiano auténtico en Madrid desde 2017. Pasta artesanal, pizzas de masa negra, ingredientes frescos. Paseo Ginebra 26, San Blas-Canillejas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&family=Italiana&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & ROOT ─── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:auto;}
+body{background:#0a0907;color:#f2ece0;font-family:'Jost',sans-serif;font-weight:300;overflow-x:hidden;cursor:none;}
+@media(pointer:coarse){body{cursor:auto;}}
+img{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button{background:none;border:none;font-family:inherit;color:inherit;cursor:none;}
+
+/* ─── CSS VARIABLES ─── */
+:root{
+  --bg:#0a0907;
+  --bg2:#0f0d0a;
+  --cream:#f2ece0;
+  --cream-soft:rgba(242,236,224,0.65);
+  --gold:#c9a23a;
+  --gold-dim:rgba(201,162,58,0.3);
+  --red:#9b1c1c;
+  --e-expo:cubic-bezier(0.16,1,0.3,1);
+  --e-out:cubic-bezier(0.25,0.46,0.45,0.94);
+  --pad:clamp(1.5rem,5vw,6rem);
+}
+
+/* ─── GRAIN ─── */
+body::after{
+  content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;
+  opacity:0.035;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ─── LOADER ─── */
+#loader{
+  position:fixed;inset:0;z-index:10000;background:#0a0907;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;
+  transition:opacity .9s var(--e-expo),visibility .9s;
+}
+#loader.gone{opacity:0;visibility:hidden;pointer-events:none;}
+.loader-logo{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:clamp(2rem,8vw,5rem);letter-spacing:0.25em;color:var(--cream);
+  display:flex;gap:0.04em;
+}
+.loader-logo span{opacity:0;transform:translateY(18px);animation:lup .8s var(--e-expo) forwards;}
+.loader-logo span:nth-child(1){animation-delay:.05s}
+.loader-logo span:nth-child(2){animation-delay:.1s}
+.loader-logo span:nth-child(3){animation-delay:.15s}
+.loader-logo span:nth-child(4){animation-delay:.2s}
+.loader-logo span:nth-child(5){animation-delay:.25s}
+.loader-logo span:nth-child(6){animation-delay:.3s}
+.loader-logo span:nth-child(7){animation-delay:.35s}
+.loader-logo span:nth-child(8){animation-delay:.4s}
+.loader-logo span:nth-child(9){animation-delay:.45s}
+.loader-logo span:nth-child(10){animation-delay:.5s}
+.loader-sub{
+  font-family:'Jost',sans-serif;font-weight:400;font-size:.65rem;
+  letter-spacing:.5em;text-transform:uppercase;color:var(--gold);
+  opacity:0;animation:lup .7s var(--e-expo) .7s forwards;
+}
+.loader-bar{width:120px;height:1px;background:rgba(242,236,224,0.12);overflow:hidden;opacity:0;animation:lup .5s ease .6s forwards;}
+.loader-bar::after{content:'';display:block;height:100%;background:var(--gold);transform:scaleX(0);transform-origin:left;animation:lbar 1.2s var(--e-expo) .7s forwards;}
+@keyframes lup{to{opacity:1;transform:translateY(0);}}
+@keyframes lbar{to{transform:scaleX(1);}}
+
+/* ─── CUSTOM CURSOR ─── */
+.cursor-dot,.cursor-ring{position:fixed;border-radius:50%;pointer-events:none;z-index:9998;top:0;left:0;}
+.cursor-dot{width:5px;height:5px;background:var(--gold);transform:translate(-50%,-50%);}
+.cursor-ring{
+  width:36px;height:36px;border:1px solid rgba(201,162,58,0.55);
+  transform:translate(-50%,-50%);transition:width .3s var(--e-expo),height .3s var(--e-expo),border-color .3s;
+}
+.cursor-ring.expand{width:60px;height:60px;border-color:rgba(201,162,58,0.25);background:rgba(201,162,58,0.05);}
+@media(pointer:coarse){.cursor-dot,.cursor-ring{display:none;}}
+
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:0;left:0;width:100%;z-index:500;
+  padding:1.6rem var(--pad);display:flex;align-items:center;justify-content:space-between;
+  transition:background .5s,backdrop-filter .5s,padding .4s;
+}
+nav.scrolled{
+  background:rgba(10,9,7,0.88);backdrop-filter:blur(16px);
+  padding-top:1rem;padding-bottom:1rem;border-bottom:1px solid rgba(201,162,58,0.12);
+}
+.nav-logo{
+  font-family:'Italiana',serif;font-size:clamp(1.2rem,2.5vw,1.6rem);
+  letter-spacing:0.1em;color:var(--cream);display:flex;align-items:center;gap:.7rem;
+}
+.nav-logo img{height:36px;width:36px;object-fit:contain;filter:brightness(1.2);}
+.nav-links{display:flex;align-items:center;gap:2.4rem;}
+.nav-links a{
+  font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:var(--cream-soft);
+  position:relative;transition:color .3s;
+}
+.nav-links a::after{
+  content:'';position:absolute;left:0;bottom:-4px;width:0;height:1px;background:var(--gold);
+  transition:width .4s var(--e-expo);
+}
+.nav-links a:hover{color:var(--cream);}
+.nav-links a:hover::after{width:100%;}
+.nav-cta{
+  padding:.65rem 1.5rem;border:1px solid var(--gold);color:var(--gold);
+  font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;
+  transition:all .35s var(--e-expo);
+}
+.nav-cta:hover{background:var(--gold);color:var(--bg);}
+@media(max-width:768px){.nav-links a:not(.nav-cta){display:none;}}
+
+/* ─── PROGRESS BAR ─── */
+#progress{position:fixed;top:0;left:0;height:2px;background:var(--gold);z-index:600;transform:scaleX(0);transform-origin:left;}
+
+/* ─── HERO ─── */
+.hero{
+  position:relative;height:100svh;overflow:hidden;
+  display:flex;align-items:center;justify-content:flex-start;
+}
+.hero-bg{
+  position:absolute;inset:0;z-index:0;will-change:transform;
+}
+.hero-bg img{
+  width:100%;height:120%;object-fit:cover;object-position:center;
+  transform:scale(1.08);
+}
+.hero-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(105deg,rgba(10,9,7,0.8) 0%,rgba(10,9,7,0.45) 55%,rgba(10,9,7,0.2) 100%);
+}
+.hero-content{
+  position:relative;z-index:2;padding:0 var(--pad);max-width:900px;
+}
+.hero-eyebrow{
+  font-size:.62rem;letter-spacing:.55em;text-transform:uppercase;color:var(--gold);
+  display:flex;align-items:center;gap:1rem;margin-bottom:1.8rem;
+  opacity:0;transform:translateY(20px);
+}
+.hero-eyebrow::before{content:'';width:40px;height:1px;background:var(--gold);}
+.hero-title{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:clamp(4.5rem,14vw,14rem);line-height:.88;
+  letter-spacing:-0.01em;color:var(--cream);
+  display:flex;flex-direction:column;
+}
+.hero-title .t1,.hero-title .t2{
+  overflow:hidden;display:block;
+}
+.hero-title .t1 span,.hero-title .t2 span{display:block;will-change:transform;}
+.hero-title .t2{
+  font-style:italic;color:var(--gold);
+  font-size:clamp(3rem,9vw,9rem);
+  margin-left:clamp(1rem,5vw,5rem);margin-top:-.08em;
+}
+.hero-sub{
+  margin-top:2rem;font-size:clamp(.9rem,1.2vw,1rem);color:var(--cream-soft);
+  max-width:44ch;line-height:1.7;
+  opacity:0;transform:translateY(18px);
+}
+.hero-actions{
+  margin-top:2.5rem;display:flex;gap:1rem;flex-wrap:wrap;
+  opacity:0;transform:translateY(18px);
+}
+.btn-gold{
+  padding:1rem 2.2rem;border:1px solid var(--gold);color:var(--gold);
+  font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;
+  transition:all .4s var(--e-expo);display:inline-block;
+}
+.btn-gold:hover{background:var(--gold);color:var(--bg);}
+.btn-ghost{
+  padding:1rem 2.2rem;border:1px solid rgba(242,236,224,0.25);color:var(--cream-soft);
+  font-size:.65rem;letter-spacing:.3em;text-transform:uppercase;
+  transition:all .4s var(--e-expo);display:inline-block;
+}
+.btn-ghost:hover{border-color:var(--cream);color:var(--cream);}
+.hero-scroll{
+  position:absolute;bottom:2.5rem;left:var(--pad);z-index:3;
+  display:flex;align-items:center;gap:.8rem;
+  font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;color:var(--cream-soft);
+  opacity:0;
+}
+.hero-scroll-line{
+  width:40px;height:1px;background:var(--cream-soft);
+  transform:scaleX(0);transform-origin:left;animation:linein 1s var(--e-expo) 2s forwards;
+}
+@keyframes linein{to{transform:scaleX(1);}}
+.hero-year{
+  position:absolute;right:var(--pad);top:50%;z-index:3;
+  font-family:'Cormorant Garamond',serif;font-size:.75rem;
+  letter-spacing:.5em;text-transform:uppercase;color:rgba(201,162,58,0.5);
+  writing-mode:vertical-rl;transform:translateY(-50%);
+}
+
+/* ─── SECTION COMMONS ─── */
+.section{padding:clamp(5rem,12vw,12rem) var(--pad);}
+.overline{
+  font-size:.62rem;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);
+  display:flex;align-items:center;gap:.8rem;margin-bottom:1.5rem;
+}
+.overline::before{content:'✦';font-size:.5rem;}
+h2.display{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:clamp(2.5rem,7vw,7rem);line-height:1;letter-spacing:-.01em;
+}
+h2.display em{font-style:italic;color:var(--gold);}
+.section-rule{width:60px;height:1px;background:rgba(201,162,58,0.35);margin:2rem 0;}
+
+/* ─── STORIA (ABOUT) ─── */
+.storia{background:var(--bg2);}
+.storia-inner{
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(3rem,8vw,8rem);align-items:center;
+}
+.storia-text{max-width:56ch;}
+.storia-text h2{margin-bottom:1.8rem;}
+.storia-text p{
+  font-size:1.05rem;line-height:1.85;color:var(--cream-soft);margin-bottom:1.2rem;
+}
+.storia-text p:first-of-type::first-letter{
+  font-family:'Cormorant Garamond',serif;float:left;
+  font-size:4.5rem;line-height:.75;padding:.15rem .5rem 0 0;color:var(--gold);font-weight:300;
+}
+.storia-stat{
+  display:flex;gap:3rem;margin-top:2.5rem;padding-top:2rem;
+  border-top:1px solid rgba(201,162,58,0.18);
+}
+.storia-stat-item .num{
+  font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:300;color:var(--gold);line-height:1;
+}
+.storia-stat-item .lab{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--cream-soft);margin-top:.3rem;}
+.storia-img{position:relative;}
+.expand-frame{
+  overflow:hidden;clip-path:inset(16% 8%);
+  aspect-ratio:4/5;
+}
+.expand-frame img{
+  width:100%;height:100%;object-fit:cover;transform:scale(1.22);
+}
+@media(max-width:900px){
+  .storia-inner{grid-template-columns:1fr;}
+  .expand-frame{aspect-ratio:16/9;}
+}
+
+/* ─── SIGNATURE DISHES (PINNED) ─── */
+.dishes-outer{position:relative;height:350vh;}
+.dishes-sticky{
+  position:sticky;top:0;height:100svh;overflow:hidden;display:flex;align-items:center;
+}
+.dish-scene{
+  position:absolute;inset:0;display:flex;align-items:center;
+  opacity:0;visibility:hidden;
+}
+.dish-scene.active{opacity:1;visibility:visible;}
+.dish-bg{position:absolute;inset:0;will-change:transform;}
+.dish-bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.1);}
+.dish-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(10,9,7,0.86) 0%,rgba(10,9,7,0.5) 55%,rgba(10,9,7,0.15) 100%);}
+.dish-content{
+  position:relative;z-index:2;padding:0 var(--pad);max-width:560px;
+}
+.dish-num{
+  font-family:'Cormorant Garamond',serif;font-size:6rem;font-weight:300;
+  color:rgba(201,162,58,0.12);line-height:1;margin-bottom:-.5rem;
+}
+.dish-content .overline{margin-bottom:.8rem;}
+.dish-title{
+  font-family:'Cormorant Garamond',serif;font-weight:300;
+  font-size:clamp(2.5rem,6vw,5.5rem);line-height:1;letter-spacing:-.01em;
+  margin-bottom:1rem;
+}
+.dish-title em{font-style:italic;color:var(--gold);}
+.dish-desc{font-size:1rem;line-height:1.75;color:var(--cream-soft);max-width:42ch;margin-bottom:1.5rem;}
+.dish-price{
+  font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;
+  color:var(--gold);letter-spacing:.05em;
+}
+.dish-dots{
+  position:absolute;right:var(--pad);top:50%;transform:translateY(-50%);z-index:3;
+  display:flex;flex-direction:column;gap:.7rem;
+}
+.dish-dot{
+  width:8px;height:8px;border-radius:50%;border:1px solid rgba(201,162,58,0.4);
+  transition:all .4s;cursor:pointer;
+}
+.dish-dot.on{background:var(--gold);border-color:var(--gold);}
+
+/* ─── GALLERY ─── */
+.gallery-outer{
+  position:relative;height:250vw;max-height:2500px;overflow:hidden;
+}
+.gallery-sticky{
+  position:sticky;top:0;height:100svh;overflow:hidden;display:flex;align-items:center;
+}
+.gallery-track{
+  display:flex;gap:1.5rem;padding:0 var(--pad);align-items:center;
+  will-change:transform;
+}
+.gallery-item{
+  flex-shrink:0;overflow:hidden;
+  transition:transform .6s var(--e-out);
+}
+.gallery-item:hover{transform:scale(0.97);}
+.gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--e-out);}
+.gallery-item:hover img{transform:scale(1.05);}
+.gallery-item:nth-child(odd){width:clamp(240px,30vw,400px);height:clamp(320px,40vw,540px);}
+.gallery-item:nth-child(even){width:clamp(200px,25vw,340px);height:clamp(260px,32vw,440px);}
+.gallery-item:nth-child(3){width:clamp(340px,42vw,520px);height:clamp(460px,55vw,680px);}
+.gallery-header{
+  position:absolute;top:2rem;left:var(--pad);z-index:2;
+}
+
+/* ─── REVIEWS ─── */
+.reviews{background:var(--bg2);}
+.reviews-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));
+  gap:2px;margin-top:4rem;
+}
+.review-card{
+  padding:2.8rem;background:rgba(255,255,255,0.02);border:1px solid rgba(201,162,58,0.08);
+  transition:border-color .4s,background .4s;
+}
+.review-card:hover{border-color:rgba(201,162,58,0.25);background:rgba(201,162,58,0.03);}
+.review-stars{color:var(--gold);letter-spacing:.2rem;font-size:.75rem;margin-bottom:1.2rem;}
+.review-text{font-size:.95rem;line-height:1.8;color:var(--cream-soft);margin-bottom:1.5rem;}
+.review-author{
+  font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:400;
+  color:var(--cream);letter-spacing:.05em;
+}
+
+/* ─── RESERVA ─── */
+.reserva{
+  position:relative;min-height:90svh;display:flex;align-items:center;overflow:hidden;
+}
+.reserva-bg{position:absolute;inset:0;z-index:0;}
+.reserva-bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.1);}
+.reserva-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(180deg,rgba(10,9,7,0.7) 0%,rgba(10,9,7,0.9) 100%);
+}
+.reserva-inner{
+  position:relative;z-index:2;padding:clamp(4rem,10vw,10rem) var(--pad);
+  text-align:center;width:100%;
+}
+.reserva-inner h2{margin-bottom:1rem;}
+.reserva-inner p{
+  font-size:1.05rem;color:var(--cream-soft);max-width:50ch;margin:0 auto 3rem;line-height:1.7;
+}
+.reserva-details{
+  display:flex;justify-content:center;gap:clamp(2rem,6vw,6rem);flex-wrap:wrap;
+  margin-bottom:3rem;padding:2rem;border-top:1px solid rgba(201,162,58,0.18);border-bottom:1px solid rgba(201,162,58,0.18);
+}
+.reserva-item h4{
+  font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:.5rem;
+}
+.reserva-item p{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;color:var(--cream);}
+
+/* ─── FOOTER ─── */
+footer{
+  background:#060504;border-top:1px solid rgba(201,162,58,0.1);
+  padding:clamp(3rem,8vw,7rem) var(--pad) 2.5rem;
+}
+.footer-grid{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:4rem;
+}
+.footer-brand .logo-type{
+  font-family:'Italiana',serif;font-size:2rem;letter-spacing:.1em;color:var(--cream);margin-bottom:.8rem;
+}
+.footer-brand p{font-size:.9rem;color:var(--cream-soft);line-height:1.7;max-width:32ch;}
+.footer-social{display:flex;gap:1rem;margin-top:1.5rem;}
+.social-link{
+  width:38px;height:38px;border:1px solid rgba(201,162,58,0.25);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;color:var(--cream-soft);transition:all .35s;
+}
+.social-link:hover{border-color:var(--gold);color:var(--gold);}
+footer h4{font-size:.62rem;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1.2rem;}
+footer ul{list-style:none;}
+footer ul li{margin-bottom:.7rem;}
+footer ul li a,.footer-info p{font-size:.88rem;color:var(--cream-soft);transition:color .3s;}
+footer ul li a:hover{color:var(--cream);}
+.footer-info p{line-height:1.7;}
+.footer-base{
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;
+  padding-top:2rem;border-top:1px solid rgba(201,162,58,0.08);
+  font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(242,236,224,0.3);
+}
+@media(max-width:800px){.footer-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:480px){.footer-grid{grid-template-columns:1fr;}}
+
+/* ─── REVEAL UTILITIES ─── */
+.reveal-line{overflow:hidden;display:block;}
+.reveal-line span{display:block;will-change:transform;}
+.fade-in{opacity:0;transform:translateY(30px);will-change:opacity,transform;}
+
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-logo">
+    <span>I</span><span>L</span><span>&nbsp;</span>
+    <span>Q</span><span>U</span><span>A</span><span>T</span><span>T</span><span>R</span><span>O</span>
+  </div>
+  <div class="loader-sub">Ristorante · Pizzeria · Madrid</div>
+  <div class="loader-bar"></div>
+</div>
+
+<!-- CURSOR -->
+<div class="cursor-dot" id="curDot"></div>
+<div class="cursor-ring" id="curRing"></div>
+
+<!-- PROGRESS -->
+<div id="progress"></div>
+
+<!-- NAV -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">
+    <img src="https://ristoranteilquattro.es/wp-content/uploads/2025/08/menu-il-quattro-1000-x-1000-px-e1753946185732.png" alt="Il Quattro" loading="eager">
+    Il Quattro
+  </a>
+  <div class="nav-links">
+    <a href="#storia">Nosotros</a>
+    <a href="#platos">La Carta</a>
+    <a href="#galeria">Galería</a>
+    <a href="#contacto">Contacto</a>
+    <a href="https://www.google.com/maps/reserve/v/dine/c/Jrav4L46-54" target="_blank" rel="noopener" class="nav-cta">Reservar</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg" id="heroBg">
+    <img src="https://ristoranteilquattro.es/wp-content/uploads/2025/08/R6_9708.jpg" alt="Mesa de Il Quattro" loading="eager">
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow" id="heroEyebrow">Dal 2017 · Madrid</div>
+    <h1 class="hero-title">
+      <span class="t1"><span id="ht1">Il</span></span>
+      <span class="t2"><span id="ht2">Quattro</span></span>
+    </h1>
+    <p class="hero-sub" id="heroSub">Cocina italiana auténtica en el corazón de Madrid. Pasta artesanal, pizzas de masa negra, ingredientes que cuentan historias.</p>
+    <div class="hero-actions" id="heroActions">
+      <a href="https://www.google.com/maps/reserve/v/dine/c/Jrav4L46-54" target="_blank" rel="noopener" class="btn-gold">Reservar mesa</a>
+      <a href="https://ristoranteilquattro.es/carta/" target="_blank" rel="noopener" class="btn-ghost">Ver la carta</a>
+    </div>
+  </div>
+  <div class="hero-scroll" id="heroScroll">
+    <span class="hero-scroll-line"></span>
+    Scopri
+  </div>
+  <div class="hero-year">Est · 2017</div>
+</section>
+
+<!-- STORIA (ABOUT) -->
+<section class="storia section" id="storia">
+  <div class="storia-inner">
+    <div class="storia-text">
+      <div class="overline fade-in">La nostra storia</div>
+      <h2 class="display fade-in"><em>L'arte</em> de la<br>cocina italiana</h2>
+      <div class="section-rule"></div>
+      <p class="fade-in">Bienvenidos a Il Quattro, tu restaurante italiano favorito en el corazón de Madrid. Desde 2017 nos dedicamos a ofrecerte una experiencia culinaria única, con platos tradicionales y recetas auténticas que capturan el verdadero sabor de Italia.</p>
+      <p class="fade-in">Desde nuestra pasta artesanal hasta nuestras icónicas pizzas de masa negra, cada plato es preparado con ingredientes frescos de la mejor calidad. Creemos que la comida es mucho más que una necesidad: es una celebración de la vida, la amistad y la familia.</p>
+      <div class="storia-stat fade-in">
+        <div class="storia-stat-item"><div class="num">2017</div><div class="lab">Fundado</div></div>
+        <div class="storia-stat-item"><div class="num">100%</div><div class="lab">Artesanal</div></div>
+        <div class="storia-stat-item"><div class="num">★ 4.8</div><div class="lab">Google</div></div>
+      </div>
+    </div>
+    <div class="storia-img">
+      <div class="expand-frame" id="expandFrame1">
+        <img src="https://ristoranteilquattro.es/wp-content/uploads/2025/08/R6_1317.jpg" id="expandImg1" alt="Fachada Il Quattro">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SIGNATURE DISHES (PINNED) -->
+<div class="dishes-outer" id="dishesOuter">
+  <div class="dishes-sticky">
+
+    <!-- DISH 1: PIZZA MASA NEGRA -->
+    <div class="dish-scene" id="dish0">
+      <div class="dish-bg">
+        <img src="https://ristoranteilquattro.es/wp-content/uploads/2025/08/R6_9703-1.jpg" alt="Pizza masa negra">
+      </div>
+      <div class="dish-overlay"></div>
+      <div class="dish-content">
+        <div class="dish-num">01</div>
+        <div class="overline">Firma · La pizza</div>
+        <h3 class="dish-title">Pizza de<br><em>masa negra</em></h3>
+        <p class="dish-desc">Nuestra masa de carbón vegetal, crujiente por fuera y esponjosa por dentro. Disponible con tus ingredientes favoritos. Una pizza que no olvidarás.</p>
+        <div class="dish-price">Desde 12.90 €</div>
+      </div>
+    </div>
+
+    <!-- DISH 2: CARBONARA -->
+    <div class="dish-scene" id="dish1">
+      <div class="dish-bg">
+        <img src="https://ristoranteilquattro.es/wp-content/uploads/2025/08/R6_1068.jpg" alt="Pizza trufa">
+      </div>
+      <div class="dish-overlay"></div>
+      <div class="dish-content">
+        <div class="dish-num">02</div>
+        <div class="overline">Firma · La pasta</div>
+        <h3 class="dish-title">Spaghetti<br><em>Carbonara</em></h3>
+        <p class="dish-desc">Tradición romana en su versión más auténtica. Guanciale curado, yema de huevo, Pecorino Romano y pimienta negra. Sin nata, sin atajos.</p>
+        <div class="dish-price">16.90 €</div>
+      </div>
+    </div>
+
+    <!-- DISH 3: CHEESECAKE -->
+    <div class="dish-scene" id="dish2">
+      <div class="dish-bg">
+        <img src="https://ristoranteilquattro.es/wp-content/uploads/2025/08/R6_1127.jpg" alt="Cheesecake">
+      </div>
+      <div class="dish-overlay"></div>
+      <div class="dish-content">
+        <div class="dish-num">03</div>
+        <div class="overline">Il dolce · Postres</div>
+        <h3 class="dish-title"><em>Cheesecake</em><br>artesana</h3>
+        <p class="dish-desc">Elaborada al momento, con base crujiente y crema suave. Coronada con topping de frutos secos, chocolate y mermelada. El cierre perfecto de tu experiencia italiana.</p>
+        <div class="dish-price">Desde 6.50 €</div>
+      </div>
+    </div>
+
+    <div class="dish-dots">
+      <div class="dish-dot on" data-dish="0"></div>
+      <div class="dish-dot" data-dish="1"></div>
+      <div class="dish-dot" data-dish="2"></div>
+    </div>
+  </div>
+</div>
+
+<!-- GALLERY (HORIZONTAL) -->
+<div class="gallery-outer" id="galleryOuter">
+  <div class="gallery-sticky">
+    <div class="gallery-header fade-in">
+      <div class="overline">La galería</div>
+      <h2 class="display" style="font-size:clamp(2rem,5vw,4rem);">Cada plato,<br><em>una obra</em></h2>
+    </div>
+    <div class="gallery-track" id="galleryTrack">
+      <div class="gallery-item"><img src="https://ristoranteilquattro.es/wp-content/uploads/2025/08/R6_9586.jpg" alt="Ensalada caprese" loading="lazy"></div>
+      <div class="gallery-item"><img src="https://ristoranteilquattro.es/wp-content/uploads/2025/08/R6_9751.jpg" alt="Arancini" loading="lazy"></div>
+      <div class="gallery-item"><img src="https://ristoranteilquattro.es/wp-content/uploads/2025/08/R6_0983.jpg" alt="Plato Il Quattro" loading="lazy"></div>
+      <div class="gallery-item"><img src="https://ristoranteilquattro.es/wp-content/uploads/2025/08/R6_1226.jpg" alt="Interior" loading="lazy"></div>
+      <div class="gallery-item"><img src="https://ristoranteilquattro.es/wp-content/uploads/2025/08/R6_9763.jpg" alt="Plato pasta" loading="lazy"></div>
+      <div class="gallery-item"><img src="https://ristoranteilquattro.es/wp-content/uploads/2025/08/R6_9736.jpg" alt="Detalle cocina" loading="lazy"></div>
+      <div class="gallery-item"><img src="https://ristoranteilquattro.es/wp-content/uploads/2025/08/R6_1018.jpg" alt="Pizza" loading="lazy"></div>
+      <div class="gallery-item"><img src="https://ristoranteilquattro.es/wp-content/uploads/2025/08/R6_1088.jpg" alt="Plato especial" loading="lazy"></div>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEWS -->
+<section class="reviews section" id="resenas">
+  <div class="overline fade-in">Lo que dicen de nosotros</div>
+  <h2 class="display fade-in">Reseñas de<br><em>nuestros clientes</em></h2>
+  <div class="reviews-grid">
+    <div class="review-card fade-in">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Espectacular, soy polialérgica y se puede confiar totalmente en ellos. Los platos increíbles y abundantes, sitio acogedor. Lo mejor de todo: los canelones, parpadelle con ternera y calzone."</p>
+      <div class="review-author">— Isabel</div>
+    </div>
+    <div class="review-card fade-in">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Me ha sorprendido muy gratamente. Hemos probado el tartar de salmón, el risotto de boletus y los fagottini de pera. Todo buenísimo. Lo recomiendo sin dudarlo."</p>
+      <div class="review-author">— Maria</div>
+    </div>
+    <div class="review-card fade-in">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Todo en este restaurante es simplemente espectacular. La comida está buenísima, presentación impecable. El personal súper atento y los precios muy razonables para la calidad que ofrecen."</p>
+      <div class="review-author">— Antonio</div>
+    </div>
+    <div class="review-card fade-in">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Fuimos a celebrar un cumple y fue un acierto total. Las pizzas de masa negra, brutales. El camarero un 10. Desde el ambiente hasta la comida y el servicio — ¡volveremos seguro!"</p>
+      <div class="review-author">— Helena</div>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVA -->
+<section class="reserva" id="contacto">
+  <div class="reserva-bg">
+    <img src="https://ristoranteilquattro.es/wp-content/uploads/2025/08/R6_0913.jpg" alt="Copa de vino Il Quattro" id="reservaBg">
+  </div>
+  <div class="reserva-overlay"></div>
+  <div class="reserva-inner">
+    <div class="overline fade-in" style="justify-content:center;">Reserva tu mesa</div>
+    <h2 class="display fade-in">¿Cenamos esta<br><em>noche</em>?</h2>
+    <p class="fade-in">Reserva tu mesa y disfruta de la mejor cocina italiana en Madrid. Disponemos de terraza, sala interior y espacio para eventos privados.</p>
+    <div class="reserva-details fade-in">
+      <div class="reserva-item"><h4>Dirección</h4><p>Paseo Ginebra, 26 Local 2<br>San Blas-Canillejas, Madrid</p></div>
+      <div class="reserva-item"><h4>Teléfono</h4><p>912 344 929</p></div>
+      <div class="reserva-item"><h4>Horario</h4><p>L–D · 13:00–16:00<br>20:00–00:00</p></div>
+    </div>
+    <a href="https://www.google.com/maps/reserve/v/dine/c/Jrav4L46-54" target="_blank" rel="noopener" class="btn-gold fade-in">Reservar ahora</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo-type">Il Quattro</div>
+      <p>Restaurante italiano auténtico en Madrid desde 2017. Pasta artesanal, pizzas de masa negra y el sabor de Italia en cada plato.</p>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/ilquattroristorantes/" target="_blank" rel="noopener" class="social-link">IG</a>
+        <a href="https://www.facebook.com/IlQuattroRestaurantes" target="_blank" rel="noopener" class="social-link">FB</a>
+      </div>
+    </div>
+    <div>
+      <h4>Navegación</h4>
+      <ul>
+        <li><a href="https://ristoranteilquattro.es/carta/">La Carta</a></li>
+        <li><a href="https://ristoranteilquattro.es/menu-del-dia-las-rosas-madrid/">Menú diario</a></li>
+        <li><a href="https://ristoranteilquattro.es/eventos/">Eventos</a></li>
+        <li><a href="https://ristoranteilquattro.es/terraza/">Terraza</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Horario</h4>
+      <div class="footer-info">
+        <p>Lunes a domingo</p>
+        <p>13:00 – 16:00</p>
+        <p>20:00 – 00:00</p>
+      </div>
+    </div>
+    <div>
+      <h4>Contacto</h4>
+      <div class="footer-info">
+        <p>Paseo Ginebra, 26 L2</p>
+        <p>28022 Madrid</p>
+        <p style="margin-top:.8rem;">912 344 929</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer-base">
+    <span>© 2025 Il Quattro Ristorante · Todos los derechos reservados</span>
+    <span>Ristorante · Pizzeria · Madrid</span>
+  </div>
+</footer>
+
+<!-- LIBS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+<script>
+const REDUCE = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+/* ─── LOADER ─── */
+(function(){
+  const loader = document.getElementById('loader');
+  let gone = false;
+  const hide = () => {
+    if(gone) return; gone = true;
+    loader.classList.add('gone');
+    document.dispatchEvent(new Event('site:ready'));
+  };
+  window.addEventListener('load', () => setTimeout(hide, REDUCE ? 100 : 1800));
+  setTimeout(hide, 3500);
+})();
+
+/* ─── CURSOR ─── */
+(function(){
+  if(!window.matchMedia('(pointer:fine)').matches || REDUCE) return;
+  const dot = document.getElementById('curDot');
+  const ring = document.getElementById('curRing');
+  let rx=0,ry=0,tx=0,ty=0;
+  window.addEventListener('mousemove', e => {
+    tx = e.clientX; ty = e.clientY;
+    dot.style.transform = `translate(calc(${tx}px - 50%), calc(${ty}px - 50%))`;
+  },{passive:true});
+  (function loop(){
+    rx += (tx-rx)*0.12; ry += (ty-ry)*0.12;
+    ring.style.transform = `translate(calc(${rx}px - 50%), calc(${ry}px - 50%))`;
+    requestAnimationFrame(loop);
+  })();
+  document.querySelectorAll('a,button,[data-cursor]').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('expand'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('expand'));
+  });
+})();
+
+/* ─── MAIN ENGINE ─── */
+document.addEventListener('site:ready', () => {
+  if(typeof gsap === 'undefined') return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* Lenis smooth scroll */
+  if(!REDUCE && typeof Lenis !== 'undefined'){
+    const lenis = new Lenis({ duration:1.1, easing: t => Math.min(1, 1.001 - Math.pow(2, -10*t)) });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(t => lenis.raf(t * 1000));
+    gsap.ticker.lagSmoothing(0);
+    window.__lenis = lenis;
+  }
+
+  /* Smooth anchor links */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const t = document.querySelector(a.getAttribute('href'));
+      if(!t) return; e.preventDefault();
+      if(window.__lenis) window.__lenis.scrollTo(t, { offset: -80 });
+      else t.scrollIntoView({behavior:'smooth'});
+    });
+  });
+
+  /* NAV on scroll */
+  ScrollTrigger.create({
+    start: 80, onUpdate: s => {
+      document.getElementById('mainNav').classList.toggle('scrolled', s.scroll() > 80);
+    }
+  });
+
+  /* Progress bar */
+  gsap.to('#progress', { scaleX: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: .4 } });
+
+  /* ─ HERO ENTRANCE ─ */
+  const heroTL = gsap.timeline({ delay: REDUCE ? 0 : 0.2, defaults: { ease:'expo.out' } });
+  heroTL
+    .fromTo('#ht1, #ht2', { clipPath:'inset(100% 0 0 0)' }, { clipPath:'inset(-10% 0 0 0)', duration:1.2, stagger:0.15 })
+    .to('#heroEyebrow',  { opacity:1, y:0, duration:.9 }, '-=0.7')
+    .to('#heroSub',      { opacity:1, y:0, duration:.9 }, '-=0.6')
+    .to('#heroActions',  { opacity:1, y:0, duration:.8 }, '-=0.5')
+    .to('#heroScroll',   { opacity:1, duration:.7 }, '-=0.3');
+
+  /* ─ HERO PARALLAX ─ */
+  if(!REDUCE){
+    gsap.to('#heroBg img', {
+      yPercent: 25, ease:'none',
+      scrollTrigger:{ trigger:'.hero', start:'top top', end:'bottom top', scrub:true }
+    });
+  }
+
+  /* ─ EXPAND IMAGES ─ */
+  gsap.utils.toArray('.expand-frame').forEach((frame, i) => {
+    const img = frame.querySelector('img');
+    if(!img) return;
+    gsap.fromTo(frame,
+      { clipPath: 'inset(16% 8%)' },
+      { clipPath: 'inset(0% 0%)', ease:'power2.out',
+        scrollTrigger: { trigger: frame, start:'top 80%', end:'top 20%', scrub: true }
+      });
+    gsap.fromTo(img,
+      { scale: 1.22 },
+      { scale: 1, ease:'none',
+        scrollTrigger: { trigger: frame, start:'top 90%', end:'bottom 10%', scrub: true }
+      });
+  });
+
+  /* ─ PINNED DISHES ─ */
+  const dishes = [
+    document.getElementById('dish0'),
+    document.getElementById('dish1'),
+    document.getElementById('dish2')
+  ];
+  const dishDots = document.querySelectorAll('.dish-dot');
+
+  if(!REDUCE && dishes[0]){
+    dishes[0].style.opacity = '1';
+    dishes[0].style.visibility = 'visible';
+
+    const dishTL = gsap.timeline({
+      scrollTrigger: {
+        trigger: '#dishesOuter',
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 1,
+        pin: '.dishes-sticky',
+        anticipatePin: 1,
+        onUpdate: s => {
+          const idx = Math.min(Math.floor(s.progress * 3), 2);
+          dishDots.forEach((d,k) => d.classList.toggle('on', k===idx));
+        }
+      }
+    });
+    dishTL
+      .to(dishes[0], { opacity:0, duration:.5 }, 0.28)
+      .fromTo(dishes[1], { opacity:0, y:40 }, { opacity:1, y:0, duration:.5 }, 0.3)
+      .to(dishes[1], { opacity:0, duration:.5 }, 0.62)
+      .fromTo(dishes[2], { opacity:0, y:40 }, { opacity:1, y:0, duration:.5 }, 0.64);
+  } else {
+    // REDUCE: show all stacked
+    dishes.forEach(d => { d.style.opacity='1'; d.style.visibility='visible'; d.style.position='relative'; });
+  }
+
+  /* ─ HORIZONTAL GALLERY ─ */
+  if(!REDUCE){
+    const track = document.getElementById('galleryTrack');
+    if(track){
+      const getTrackWidth = () => track.scrollWidth - window.innerWidth;
+      let st = ScrollTrigger.create({
+        trigger: '#galleryOuter',
+        start: 'top top',
+        end: () => `+=${getTrackWidth()}`,
+        scrub: 1,
+        pin: '.gallery-sticky',
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        onUpdate: s => {
+          gsap.set(track, { x: -getTrackWidth() * s.progress });
+        }
+      });
+    }
+  }
+
+  /* ─ FADE-IN ELEMENTS ─ */
+  gsap.utils.toArray('.fade-in').forEach(el => {
+    if(REDUCE){ gsap.set(el, { opacity:1, y:0 }); return; }
+    gsap.to(el, {
+      opacity:1, y:0, duration:1, ease:'expo.out',
+      scrollTrigger:{ trigger:el, start:'top 87%', once:true }
+    });
+  });
+
+  /* ─ REVIEW CARDS STAGGER ─ */
+  if(!REDUCE){
+    gsap.from('.review-card', {
+      opacity:0, y:50, duration:1, ease:'expo.out', stagger:.12,
+      scrollTrigger:{ trigger:'.reviews-grid', start:'top 82%', once:true }
+    });
+  }
+
+  /* ─ RESERVA PARALLAX ─ */
+  if(!REDUCE){
+    gsap.to('#reservaBg', {
+      yPercent: 20, ease:'none',
+      scrollTrigger:{ trigger:'.reserva', start:'top bottom', end:'bottom top', scrub:true }
+    });
+  }
+
+  /* ─ EXPAND ABOUT IMAGE ─ */
+  if(!REDUCE){
+    ScrollTrigger.create({
+      trigger: '#storia',
+      start: 'top 70%',
+      end: 'bottom 30%',
+      onEnter: () => gsap.to('#expandFrame1', { clipPath:'inset(0% 0%)', duration:1.8, ease:'expo.out' }),
+      once: true
+    });
+  }
+
+  /* Final refresh */
+  window.addEventListener('load', () => ScrollTrigger.refresh());
+
+}, {once: true});
+</script>
+</body>
+</html>
