@@ -855,5 +855,118 @@ document.addEventListener('site:ready', () => {
 
 }, {once: true});
 </script>
+
+<!-- Agente IA de reservas · Il Quattro (Railway) -->
+<script>
+(function(){
+  const SERVER='https://ilquattro-demo-production.up.railway.app';
+  const SESSION_ID='iq-'+Math.random().toString(36).slice(2,9);
+  const css=`
+    #iq-btn{position:fixed;bottom:22px;right:22px;z-index:9998;width:60px;height:60px;border-radius:50%;
+      background:#c9a23a;box-shadow:0 8px 28px rgba(201,162,58,.5);font-size:26px;
+      display:flex;align-items:center;justify-content:center;transition:transform .2s;border:none;cursor:pointer;}
+    #iq-btn:hover{transform:scale(1.08);}
+    #iq-box{position:fixed;bottom:92px;right:22px;z-index:9999;width:360px;max-width:calc(100vw - 32px);
+      height:520px;max-height:calc(100vh - 130px);border-radius:14px;overflow:hidden;
+      box-shadow:0 24px 70px rgba(0,0,0,.7);display:none;flex-direction:column;
+      font-family:'Jost',sans-serif;border:1px solid rgba(201,162,58,.2);}
+    #iq-box.open{display:flex;}
+    #iq-hd{background:#0a0907;color:#f2ece0;padding:14px 16px;display:flex;align-items:center;gap:10px;
+      border-bottom:1px solid rgba(201,162,58,.2);}
+    #iq-av{width:36px;height:36px;border-radius:50%;background:#c9a23a;display:flex;align-items:center;
+      justify-content:center;font-size:18px;}
+    #iq-nm{font-family:'Italiana',serif;letter-spacing:.12em;font-size:14px;color:#f2ece0;}
+    #iq-sb{font-size:11px;color:#c9a23a;margin-top:1px;}
+    #iq-x{margin-left:auto;font-size:22px;line-height:1;background:none;border:none;color:rgba(242,236,224,.6);cursor:pointer;}
+    #iq-ms{flex:1;overflow-y:auto;padding:14px 12px;background:#0f0d0a;display:flex;flex-direction:column;gap:8px;}
+    .iq-m{max-width:82%;padding:9px 13px;border-radius:13px;font-size:14px;line-height:1.45;animation:iqf .2s ease;}
+    @keyframes iqf{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+    .iq-m.in{background:#1a1714;color:#f2ece0;align-self:flex-start;border-bottom-left-radius:3px;
+      border:1px solid rgba(201,162,58,.1);}
+    .iq-m.out{background:#c9a23a;color:#0a0907;align-self:flex-end;border-bottom-right-radius:3px;font-weight:500;}
+    .iq-bd{background:rgba(201,162,58,.1);color:#c9a23a;border:1px solid rgba(201,162,58,.3);
+      border-radius:10px;padding:8px 12px;font-size:13px;text-align:center;align-self:center;}
+    #iq-tp{align-self:flex-start;background:#1a1714;border:1px solid rgba(201,162,58,.1);
+      padding:10px 14px;border-radius:12px;display:none;}
+    #iq-tp span{display:inline-block;width:7px;height:7px;background:#c9a23a;border-radius:50%;
+      margin:0 2px;animation:iqb 1.2s infinite;}
+    #iq-tp span:nth-child(2){animation-delay:.15s;}#iq-tp span:nth-child(3){animation-delay:.3s;}
+    @keyframes iqb{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-5px);}}
+    #iq-ia{background:#0a0907;padding:10px 12px;display:flex;gap:8px;border-top:1px solid rgba(201,162,58,.15);}
+    #iq-in{flex:1;border:1px solid rgba(201,162,58,.2);border-radius:22px;padding:9px 14px;font-size:14px;
+      outline:none;font-family:inherit;color:#f2ece0;background:#0f0d0a;}
+    #iq-in:focus{border-color:#c9a23a;}
+    #iq-in::placeholder{color:rgba(242,236,224,.4);}
+    #iq-sd{width:38px;height:38px;border-radius:50%;background:#c9a23a;color:#0a0907;
+      font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:none;cursor:pointer;}
+  `;
+  const st=document.createElement('style'); st.textContent=css; document.head.appendChild(st);
+  const wrap=document.createElement('div');
+  wrap.innerHTML=`
+    <button id="iq-btn" title="Reservar mesa">🍕</button>
+    <div id="iq-box">
+      <div id="iq-hd">
+        <div id="iq-av">🍕</div>
+        <div><div id="iq-nm">IL QUATTRO</div><div id="iq-sb">Reservas · in linea</div></div>
+        <button id="iq-x">×</button>
+      </div>
+      <div id="iq-ms"><div id="iq-tp"><span></span><span></span><span></span></div></div>
+      <div id="iq-ia"><input id="iq-in" type="text" placeholder="Escribe tu mensaje…"><button id="iq-sd">➤</button></div>
+    </div>`;
+  document.body.appendChild(wrap);
+
+  // Prevenir scroll del chat con Lenis
+  ['iq-ms','iq-box'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el) el.setAttribute('data-lenis-prevent','');
+  });
+
+  const box=document.getElementById('iq-box'),btn=document.getElementById('iq-btn'),
+        msgs=document.getElementById('iq-ms'),typing=document.getElementById('iq-tp'),
+        input=document.getElementById('iq-in'),send=document.getElementById('iq-sd');
+  let greeted=false;
+
+  function open(){
+    box.classList.add('open');
+    if(!greeted){
+      greeted=true;
+      addMsg('Benvenuto! 🍕 Soy el asistente de <strong>Il Quattro</strong>. Dime día, hora y para cuántas personas y te reservo mesa.','in');
+    }
+    input.focus();
+  }
+  function close(){ box.classList.remove('open'); }
+  window._iqOpen=open;
+  btn.addEventListener('click',()=>box.classList.contains('open')?close():open());
+  document.getElementById('iq-x').addEventListener('click',close);
+
+  function addMsg(t,dir){
+    const d=document.createElement('div');
+    d.className='iq-m '+dir;
+    d.innerHTML=t;
+    msgs.insertBefore(d,typing);
+    msgs.scrollTop=msgs.scrollHeight;
+  }
+  function showTyping(v){ typing.style.display=v?'block':'none'; msgs.scrollTop=msgs.scrollHeight; }
+
+  async function sendMsg(){
+    const text=input.value.trim(); if(!text) return;
+    addMsg(text,'out'); input.value=''; showTyping(true);
+    try{
+      const res=await fetch(SERVER+'/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({sessionId:SESSION_ID,mensaje:text})});
+      const data=await res.json(); showTyping(false); addMsg(data.respuesta,'in');
+      if(data.reservaCreada){
+        const r=data.reservaCreada;
+        const b=document.createElement('div'); b.className='iq-bd';
+        b.textContent='✅ Prenotazione confermata · '+r.fecha+' '+r.hora+' · '+r.personas+' personas';
+        msgs.insertBefore(b,typing); msgs.scrollTop=msgs.scrollHeight;
+      }
+    }catch(e){ showTyping(false); addMsg('Ha ocurrido un error. Llámanos al 912 344 929.','in'); }
+  }
+  send.addEventListener('click',sendMsg);
+  input.addEventListener('keydown',e=>{if(e.key==='Enter')sendMsg();});
+})();
+function openWidget(){ if(window._iqOpen) window._iqOpen(); }
+</script>
 </body>
 </html>
