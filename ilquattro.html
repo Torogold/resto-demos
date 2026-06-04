@@ -295,6 +295,7 @@ h2.display em{font-style:italic;color:var(--gold);}
 }
 .gallery-sticky{
   position:sticky;top:0;height:100svh;overflow:hidden;display:flex;align-items:center;
+  z-index:10;
 }
 .gallery-track{
   display:flex;gap:1.5rem;padding:0 var(--pad);align-items:center;
@@ -312,20 +313,6 @@ h2.display em{font-style:italic;color:var(--gold);}
 .gallery-item:nth-child(3){width:clamp(340px,42vw,520px);height:clamp(460px,55vw,680px);}
 .gallery-header{
   position:absolute;top:2rem;left:var(--pad);z-index:2;
-}
-
-/* ─── GALLERY MOBILE ─── */
-@media(max-width:768px){
-  .gallery-outer{height:auto;}
-  .gallery-sticky{
-    position:relative;height:auto;
-    overflow-x:auto;overflow-y:visible;
-    -webkit-overflow-scrolling:touch;
-    padding:clamp(4rem,10vw,8rem) 0 clamp(3rem,8vw,6rem);
-  }
-  .gallery-header{position:relative;top:auto;left:auto;padding:0 var(--pad);margin-bottom:2rem;}
-  .gallery-track{transform:none !important;}
-  .reviews{position:relative;z-index:1;}
 }
 
 /* ─── REVIEWS ─── */
@@ -865,7 +852,18 @@ document.addEventListener('site:ready', () => {
   }
 
   /* Final refresh */
-  window.addEventListener('load', () => ScrollTrigger.refresh());
+  window.addEventListener('load', () => {
+    ScrollTrigger.refresh();
+    // Fallback: si GSAP no animó las reseñas en 4s, las fuerza visibles
+    setTimeout(() => {
+      document.querySelectorAll('.review-card').forEach(el => {
+        if (parseFloat(window.getComputedStyle(el).opacity) < 0.5) {
+          gsap.set(el, { opacity:1, y:0 });
+        }
+      });
+      ScrollTrigger.refresh();
+    }, 4000);
+  });
 
 }, {once: true});
 </script>
