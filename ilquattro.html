@@ -323,8 +323,9 @@ h2.display em{font-style:italic;color:var(--gold);}
 }
 .review-card{
   padding:2.8rem;background:rgba(255,255,255,0.02);border:1px solid rgba(201,162,58,0.08);
-  transition:border-color .4s,background .4s;
+  transition:border-color .4s,background .4s,opacity .8s ease,transform .8s ease;
 }
+.review-card.in-view{opacity:1 !important;transform:none !important;}
 .review-card:hover{border-color:rgba(201,162,58,0.25);background:rgba(201,162,58,0.03);}
 .review-stars{color:var(--gold);letter-spacing:.2rem;font-size:.75rem;margin-bottom:1.2rem;}
 .review-text{font-size:.95rem;line-height:1.8;color:var(--cream-soft);margin-bottom:1.5rem;}
@@ -854,16 +855,18 @@ document.addEventListener('site:ready', () => {
   /* Final refresh */
   window.addEventListener('load', () => {
     ScrollTrigger.refresh();
-    // Fallback: si GSAP no animó las reseñas en 4s, las fuerza visibles
-    setTimeout(() => {
-      document.querySelectorAll('.review-card').forEach(el => {
-        if (parseFloat(window.getComputedStyle(el).opacity) < 0.5) {
-          gsap.set(el, { opacity:1, y:0 });
-        }
-      });
-      ScrollTrigger.refresh();
-    }, 4000);
   });
+
+  /* IntersectionObserver: garantiza que review-cards sean visibles */
+  const cardObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        cardObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  document.querySelectorAll('.review-card').forEach(card => cardObserver.observe(card));
 
 }, {once: true});
 </script>
